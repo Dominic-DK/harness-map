@@ -945,22 +945,15 @@ function renderStageSelOnly(){
   document.querySelectorAll('#stage .chip[data-k="'+S.sel+'"]').forEach(function(g){g.classList.add('sel');});
 }
 
-var SPAWN_NOTE={
-  fork:'포크는 메인 대화와 시스템 프롬프트, 도구, 모델을 그대로 복사해서 띄운다. 작업이 끝나면 결과 요약만 메인으로 돌아온다.',
-  subagent:'서브에이전트는 빈 대화로 시작한다. CLAUDE.md 와 rules 는 메인 세션과 같은 범위를 다시 읽는다. auto memory, 출력 스타일, 메인 대화는 전달되지 않는다. 권한 모드는 부모가 bypassPermissions, acceptEdits, auto 중 하나일 때만 전달된다. 스킬은 호출할 수 있지만, 부모가 이미 불러온 스킬의 내용은 모른다. 중첩은 3단계, 동시 실행은 20개까지이다.',
-  explore:'나머지 항목은 일반 서브에이전트와 같다. 빈 대화로 시작하고, auto memory 와 출력 스타일은 전달되지 않는다.',
-  teammate:'팀원은 독립된 세션으로 실행된다. CLAUDE.md, MCP 서버, 스킬을 시작 폴더 기준으로 새로 읽는다. 리드의 대화는 받지 않고 스폰 프롬프트(띄울 때 준 지시문)만 받는다. 권한 모드는 리드의 것을 받으며, dontAsk 만 예외이다. 팀 안에서 다시 팀을 만들 수는 없다.',
-  headless:'headless 는 claude -p 명령으로 새 프로세스를 띄우는 방식이다. 같은 폴더에서 실행하면 같은 설정 파일을 읽지만 대화는 없다. 권한 모드는 --permission-mode 인자로 정한다.'
-};
 function renderSummary(){
   var box=document.getElementById('summary'); var sp=S.spawn, c=S.counts||{};
-  var note=SPAWN_NOTE[sp]||(D.spawn_notes||{})[sp==='explore'?'subagent':sp]||'';
+  var note=(D.spawn_notes||{})[sp==='explore'?'subagent':sp]||'';
   if(sp==='main'){
     box.innerHTML='<span>메인 세션은 시작할 때 디스크의 파일을 읽는다. 가는 회색 선은 시작할 때 읽은 파일을 가리킨다.</span><span class="note">띄우는 방식을 고르면 오른쪽에 새 세션이 받는 내용이 표시된다.</span>'; return;
   }
   var parts=[['carry','부모 세션에서 그대로 받음'],['reload','파일에서 새로 읽음'],['cond','조건에 따라 다름'],['cut','전달되지 않음'],['conflict','문서와 관찰이 다름']].filter(function(p){return c[p[0]];}).map(function(p){return '<span>'+p[1]+' <b class="num">'+c[p[0]]+'</b></span>';});
   var none = !c.cut && !c.reload && !c.conflict;
-  var extra = sp==='explore' ? '내장 Explore·Plan 에이전트는 서브에이전트 규칙을 따르지만 CLAUDE.md 와 rules 는 읽지 않는다. ' : '';
+  var extra = '';
   if(S.multi) extra += '워커 '+S.multi+'개가 각각 이 구성으로 실행된다. 각 워커는 메인 대화 없이 시작한다. 훅 '+locStats(L()).hooks.length+'개는 세션 '+S.multi+'개 모두에서 실행된다. 동시에 실행할 수 있는 서브에이전트는 20개, 중첩은 3단계까지이다. ';
   box.innerHTML=parts.join('')+'<span class="note">'+(none?'<b>이 방식에서는 모든 항목을 부모 세션에서 그대로 받는다.</b> 전달되지 않거나 파일에서 새로 읽는 항목은 없다. ':'')+esc(extra)+esc(note)+' '+tagHtml(S.multi?'추론':'문서')+'</span>';
 }
