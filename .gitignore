@@ -1,0 +1,5 @@
+# 각자 뽑은 데이터와 결과 화면은 올리지 않는다 (폴더 경로·플러그인 목록이 들어 있다)
+harness.json
+harness-map.html
+harness-map-output/
+__pycache__/

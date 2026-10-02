@@ -1,0 +1,1259 @@
+<title>하네스 조립도</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#eef0f2; --surface:#f9fafb; --surface-2:#e2e5e9; --chip:#ffffff;
+  --ink:#15181d; --ink-2:#454b56; --ink-3:#878d98; --rule:#c5cad1;
+  --plate-0:#f7f8fa; --plate-1:#eceff2; --plate-2:#e0e4e9; --plate-3:#d2d7de; --plate-4:#c3c9d1;
+  --side-0:#cfd4db; --side-1:#c3c9d1; --side-2:#b4bbc5; --side-3:#a4acb7; --side-4:#939ca8;
+  --accent:#1f55d1; --accent-tint:#dbe4f8; --on-accent:#ffffff;
+  --warn:#b35a12; --warn-tint:#f5e2cf;
+  --tray:#dde1e6; --tray-edge:#b9bfc8;
+  --font:"IBM Plex Sans KR","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#111317; --surface:#171a1f; --surface-2:#22262d; --chip:#1d2127;
+    --ink:#e8eaee; --ink-2:#b0b6c0; --ink-3:#6d737e; --rule:#363b44;
+    --plate-0:#191c21; --plate-1:#1f2329; --plate-2:#262a31; --plate-3:#2e333b; --plate-4:#373d46;
+    --side-0:#0d0f12; --side-1:#0b0d10; --side-2:#090b0d; --side-3:#07080a; --side-4:#050607;
+    --accent:#82a6ff; --accent-tint:#1c2848; --on-accent:#0b1020;
+    --warn:#f0a35e; --warn-tint:#3a2715;
+    --tray:#0d0f12; --tray-edge:#2a2f37;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111317; --surface:#171a1f; --surface-2:#22262d; --chip:#1d2127;
+  --ink:#e8eaee; --ink-2:#b0b6c0; --ink-3:#6d737e; --rule:#363b44;
+  --plate-0:#191c21; --plate-1:#1f2329; --plate-2:#262a31; --plate-3:#2e333b; --plate-4:#373d46;
+  --side-0:#0d0f12; --side-1:#0b0d10; --side-2:#090b0d; --side-3:#07080a; --side-4:#050607;
+  --accent:#82a6ff; --accent-tint:#1c2848; --on-accent:#0b1020;
+  --warn:#f0a35e; --warn-tint:#3a2715;
+  --tray:#0d0f12; --tray-edge:#2a2f37;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1160px;margin:0 auto;padding-inline:20px;padding-block:28px 64px}
+@media (max-width:520px){.wrap{padding-inline:16px}}
+h1,h2,h3{margin:0;font-weight:700;letter-spacing:-0.01em}
+h1{font-size:30px;line-height:1.2}
+h2{font-size:21px;line-height:1.3}
+h3{font-size:15px}
+p{margin:0}
+code,.mono{font-family:var(--mono);font-size:.9em}
+a{color:var(--accent)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.muted{color:var(--ink-2)}
+.faint{color:var(--ink-3)}
+.num{font-variant-numeric:tabular-nums;font-family:var(--mono)}
+.tag{font-family:var(--mono);font-size:11px;color:var(--ink-2);white-space:nowrap}
+.tag.inf{font-style:italic;text-decoration:underline dotted;text-underline-offset:3px}
+.tag.obs{color:var(--ink)}
+
+/* header */
+.top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px 24px;align-items:end;border-bottom:1px solid var(--rule);padding-bottom:14px}
+.top .meta{font-family:var(--mono);font-size:12px;color:var(--ink-2);text-align:right}
+@media (max-width:720px){.top{grid-template-columns:minmax(0,1fr)}.top .meta{text-align:left}}
+.thesis{font-size:17px;margin-top:8px;max-width:46em}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:24px;margin-top:22px;align-items:start}
+@media (max-width:900px){.hero{grid-template-columns:minmax(0,1fr)}}
+.hero-fig{min-width:0;overflow-x:auto}
+.hero-fig svg{width:100%;min-width:600px;height:auto;display:block}
+.props{display:flex;flex-direction:column;gap:12px;min-width:0}
+.prop{display:grid;grid-template-columns:34px minmax(0,1fr);gap:4px 10px}
+.prop b{font-family:var(--mono);font-size:12px;color:var(--ink-2);padding-top:3px}
+.prop p{font-size:14.5px}
+.prop .go{grid-column:2;font-size:12.5px}
+.linkbtn{background:none;border:0;padding:0;color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-size:inherit}
+
+/* sections */
+section.block{margin-top:44px}
+.sec-head{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:baseline;margin-bottom:12px}
+.sec-head p{color:var(--ink-2);font-size:14px}
+
+/* controls */
+.ctl{display:grid;grid-template-columns:110px minmax(0,1fr);gap:8px 14px;align-items:start;margin-top:10px}
+@media (max-width:640px){.ctl{grid-template-columns:minmax(0,1fr)}}
+.ctl > .lab{font-size:13px;color:var(--ink-2);padding-top:8px}
+.seg{display:flex;flex-wrap:wrap;gap:6px;min-width:0}
+.opt{border:1px solid var(--rule);background:var(--surface);padding:6px 11px;cursor:pointer;text-align:left;border-radius:3px;min-width:0}
+.opt:hover{border-color:var(--ink-3)}
+.opt[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.opt .n{display:block;font-weight:600;font-size:14px}
+.opt .d{display:block;font-family:var(--mono);font-size:11px;opacity:.78;font-variant-numeric:tabular-nums}
+.opt[disabled]{opacity:.4;cursor:not-allowed}
+.cases{display:flex;flex-wrap:wrap;gap:6px}
+.case{border:1px solid var(--rule);background:transparent;padding:5px 10px;cursor:pointer;font-size:13px;border-radius:3px}
+.case b{font-family:var(--mono);font-weight:600;margin-right:6px}
+.case[aria-pressed="true"]{border-color:var(--accent);background:var(--accent);color:var(--on-accent)}
+.case[disabled]{opacity:.4;cursor:not-allowed}
+.caseline{margin-top:12px;border-left:4px solid var(--accent);background:var(--surface);padding:10px 14px;min-height:46px;display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+.caseline .txt{flex:1 1 360px;min-width:0}
+.caseline .alts{display:flex;flex-wrap:wrap;gap:6px}
+.caseline .alts button{border:1px solid var(--accent);background:transparent;color:var(--accent);padding:3px 9px;border-radius:3px;cursor:pointer;font-size:13px}
+.caseline .alts button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+.caseline label{font-size:13px;display:flex;gap:6px;align-items:center}
+.caseline input[type=number]{width:72px;font:inherit;font-family:var(--mono);padding:2px 6px;background:var(--chip);color:var(--ink);border:1px solid var(--rule)}
+
+/* stage */
+.stage-scroll{overflow-x:auto;margin-top:12px;border:1px solid var(--rule);background:var(--surface)}
+.stage-scroll svg{display:block;min-width:900px;width:100%;height:auto}
+.scroll-hint{display:none;font-size:12px;color:var(--ink-3);margin-top:4px}
+@media (max-width:900px){.scroll-hint{display:block}}
+.summary{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:10px;font-size:14px}
+.summary .note{flex-basis:100%;color:var(--ink-2);font-size:13.5px}
+
+/* svg classes */
+.t-lab{font-family:var(--font);font-size:12.5px;font-weight:600;fill:var(--ink)}
+.t-val{font-family:var(--mono);font-size:11.5px;fill:var(--ink)}
+.t-sm{font-family:var(--font);font-size:11px;fill:var(--ink-2)}
+.t-mono-sm{font-family:var(--mono);font-size:10.5px;fill:var(--ink)}
+.t-faint{fill:var(--ink-3)}
+.t-head{font-family:var(--font);font-size:14px;font-weight:700;fill:var(--ink)}
+.t-ring{font-family:var(--font);font-size:12px;font-weight:700;fill:var(--ink)}
+.t-ringsub{font-family:var(--font);font-size:11px;fill:var(--ink-2)}
+.t-accent{fill:var(--accent)}
+.h-name{font-family:var(--font);font-size:16px;font-weight:700;fill:var(--ink)}
+.h-sub{font-family:var(--font);font-size:12.5px;fill:var(--ink-2)}
+.h-val{font-family:var(--mono);font-size:12px;fill:var(--ink)}
+.h-br{font-family:var(--font);font-size:13.5px;font-weight:700;fill:var(--ink)}
+.outline-txt{paint-order:stroke;stroke:var(--bg);stroke-width:4px;stroke-linejoin:round}
+.t-warn{fill:var(--warn)}
+.chip{cursor:pointer}
+.chip:focus{outline:none}
+.chip:focus-visible .shape,.chip.sel .shape{stroke:var(--accent);stroke-width:2.5}
+.ln{fill:none;stroke:var(--ink);stroke-width:2}
+.ln.under{stroke:var(--surface);stroke-width:7}
+.ln.dash{stroke-dasharray:5 4}
+.ln.thin{stroke:var(--ink-3);stroke-width:1.2}
+.ln.warn{stroke:var(--warn);stroke-dasharray:4 3}
+@media (prefers-reduced-motion: no-preference){
+  .chip .shape,.ln{transition:opacity .25s ease}
+}
+
+/* legend */
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px 22px;margin-top:14px;font-size:13px}
+.legend .item{display:grid;grid-template-columns:54px minmax(0,1fr);gap:10px;align-items:center}
+.legend svg{display:block}
+
+/* detail */
+.detail{margin-top:14px;border-top:2px solid var(--ink);padding-top:12px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px 28px}
+@media (max-width:760px){.detail{grid-template-columns:minmax(0,1fr)}}
+.detail h3{font-size:17px}
+.kv{display:grid;grid-template-columns:72px minmax(0,1fr);gap:4px 12px;font-size:13.5px;margin-top:8px}
+.kv dt{color:var(--ink-2)}
+.kv dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.spawnrow{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;margin-top:8px}
+@media (max-width:520px){.spawnrow{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.spawnrow div{border:1px solid var(--rule);padding:4px 6px;font-size:12px;min-width:0}
+.spawnrow div b{display:block;font-weight:600;font-size:11.5px;color:var(--ink-2)}
+.spawnrow .s-cut{border-style:dashed;color:var(--ink-3)}
+.spawnrow .s-cond{background:repeating-linear-gradient(135deg,transparent 0 4px,var(--surface-2) 4px 6px)}
+.spawnrow .s-conflict{border-color:var(--warn);color:var(--warn)}
+.spawnrow .cur{outline:2px solid var(--accent);outline-offset:-2px}
+.evid{margin:8px 0 0;padding:0;list-style:none;font-size:13.5px;display:flex;flex-direction:column;gap:6px}
+
+/* priority */
+.nocontest{overflow-x:auto}
+table.mx{border-collapse:collapse;font-size:13px;min-width:520px}
+table.mx th,table.mx td{border-bottom:1px solid var(--rule);padding:5px 10px;text-align:center}
+table.mx th:first-child,table.mx td:first-child{text-align:left}
+table.mx th{font-weight:600;color:var(--ink-2);font-size:12px}
+.cell-on{display:inline-block;width:14px;height:14px;background:var(--ink)}
+.cell-off{display:inline-block;width:14px;height:14px;border:1px dashed var(--ink-3)}
+.cell-run{display:inline-block;width:14px;height:14px;background:repeating-linear-gradient(135deg,transparent 0 3px,var(--ink-3) 3px 4px)}
+.five{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:18px;margin-top:18px}
+@media (max-width:520px){.five{grid-template-columns:minmax(0,1fr)}}
+.way{border-top:2px solid var(--ink);padding-top:10px;min-width:0}
+.way h3{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.way h3 .k{font-family:var(--mono);font-size:11.5px;font-weight:500;color:var(--ink-2)}
+.way .lead{font-size:13.5px;color:var(--ink-2);margin:4px 0 10px}
+.way .res{font-size:13.5px;margin-top:10px}
+.way svg{display:block;max-width:100%;height:auto}
+.bins{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.bin{border:1.5px solid var(--ink);border-top:0;padding:8px 8px 6px;min-height:84px;display:flex;flex-direction:column;justify-content:flex-end;min-width:0}
+.bin .c{font-family:var(--mono);font-size:24px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1}
+.bin .w{font-size:12px;color:var(--ink-2);overflow-wrap:anywhere}
+.order{display:flex;flex-wrap:wrap;gap:4px;align-items:center;font-size:12.5px;margin-bottom:8px}
+.order span{border:1px solid var(--rule);padding:1px 7px;font-family:var(--mono)}
+.order i{font-style:normal;color:var(--ink-3)}
+.hk{display:grid;grid-template-columns:132px minmax(0,1fr);gap:6px 10px;font-size:12.5px;align-items:start}
+.hk .ev{font-family:var(--mono);font-size:12px;overflow-wrap:anywhere}
+.hk .ev small{display:block;font-family:var(--font);color:var(--ink-2);font-size:11.5px}
+.hk .sqs{display:flex;flex-wrap:wrap;gap:4px 10px;min-width:0}
+.grp{display:inline-flex;gap:2px;align-items:center}
+.sq{display:inline-block;width:11px;height:11px;border:1.5px solid var(--ink)}
+.sq.u{background:var(--ink)}
+.grp .src{font-size:11px;color:var(--ink-2);margin-left:4px;font-family:var(--mono)}
+.concat{display:flex;flex-direction:column;max-width:340px}
+.cblk{border:1.5px solid var(--ink);background:var(--chip);padding:6px 10px;display:flex;flex-direction:column;justify-content:space-between;min-height:34px}
+.cblk + .cblk{border-top-style:solid}
+.cblk.late{border-style:dashed;background:transparent;color:var(--ink-2)}
+.cblk .p{font-family:var(--mono);font-size:11.5px;overflow-wrap:anywhere}
+.seam{font-size:11.5px;color:var(--warn);padding:3px 0 3px 12px;border-left:1.5px solid var(--warn);margin-left:14px}
+.rail{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;align-items:end}
+.slot{border:1.5px solid var(--ink);padding:6px;text-align:center;min-width:0;font-size:12px}
+.slot.empty{border-style:dashed;color:var(--ink-3)}
+.slot .c{display:block;font-family:var(--mono);font-size:18px;font-weight:600}
+.slot .s{display:block;font-family:var(--mono);font-size:10.5px;overflow-wrap:anywhere}
+.gate{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:12.5px;color:var(--ink-2)}
+.gate::before{content:"";flex:0 0 auto;width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:9px solid var(--ink)}
+
+/* tacit */
+.tacit{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px 28px}
+@media (max-width:520px){.tacit{grid-template-columns:minmax(0,1fr)}}
+.tk{display:grid;grid-template-columns:36px minmax(0,1fr);gap:2px 8px;font-size:14px}
+.tk b{font-family:var(--mono);font-size:12px;color:var(--ink-2);padding-top:2px}
+.tk .foot{grid-column:2;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* history */
+.hist{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:24px}
+@media (max-width:820px){.hist{grid-template-columns:minmax(0,1fr)}}
+.tl{list-style:none;margin:0;padding:0;border-left:2px solid var(--ink)}
+.tl li{position:relative;padding:0 0 14px 18px;font-size:14px}
+.tl li::before{content:"";position:absolute;left:-7px;top:6px;width:12px;height:12px;background:var(--bg);border:2px solid var(--ink)}
+.tl li.fix::before{background:var(--ink)}
+.tl li.obs::before{border-color:var(--warn)}
+.tl .when{font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+.open{border:1.5px solid var(--warn);padding:10px 14px;font-size:14px;display:flex;flex-direction:column;gap:10px}
+.open h3{color:var(--warn)}
+.quote{font-family:var(--mono);font-size:12px;color:var(--ink-2);border-left:2px solid var(--rule);padding-left:10px;margin-top:4px;overflow-wrap:anywhere}
+
+/* questions */
+.qs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 24px}
+@media (max-width:900px){.qs{grid-template-columns:minmax(0,1fr)}}
+.qcol h3{font-size:14px;color:var(--ink-2);font-weight:600;margin-bottom:6px}
+.q{border-top:1px solid var(--rule);padding:8px 0;font-size:14px}
+.q p{font-size:13px;color:var(--ink-2);margin-top:2px}
+
+/* paste */
+.paste{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
+@media (max-width:820px){.paste{grid-template-columns:minmax(0,1fr)}}
+.cmd{display:flex;gap:0;margin-top:8px;border:1px solid var(--ink);min-width:0}
+.cmd code{flex:1;padding:8px 10px;overflow-x:auto;white-space:nowrap;font-size:12.5px;background:var(--chip);min-width:0}
+.cmd button,.btn{border:0;background:var(--ink);color:var(--bg);padding:8px 14px;cursor:pointer;font-size:13px}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+textarea{width:100%;min-height:150px;font-family:var(--mono);font-size:12px;background:var(--chip);color:var(--ink);border:1px solid var(--rule);padding:8px;resize:vertical}
+.errs{margin:8px 0 0;padding-left:18px;color:var(--warn);font-size:13.5px}
+.ok{color:var(--ink);font-size:13.5px;margin-top:8px}
+.row-btns{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+footer{margin-top:48px;border-top:1px solid var(--rule);padding-top:12px;font-size:12.5px;color:var(--ink-2);display:flex;flex-direction:column;gap:4px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>하네스 조립도</h1>
+      <p class="thesis">Claude Code 에서 모델이 받는 지시와 설정은 두 가지에 따라 달라진다. 하나는 <b>어느 폴더에서 시작했는지</b>이고, 다른 하나는 <b>새 에이전트를 어떤 방식으로 띄웠는지</b>이다. 새로 띄운 에이전트는 디스크에 저장된 파일을 다시 읽는다. 메인 대화에서만 오간 내용은 새 에이전트에 전달되지 않는다.</p>
+    </div>
+    <div class="meta" id="meta"></div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-fig" id="hero-fig" aria-label="다섯 겹 분해도"></div>
+    <div class="props" id="props"></div>
+  </div>
+
+  <section class="block" id="stage-sec" aria-labelledby="stage-h">
+    <div class="sec-head">
+      <h2 id="stage-h">조립도</h2>
+      <p>시작 폴더와 띄우는 방식을 바꾸면, 오른쪽 새 세션의 각 항목을 어디에서 받는지가 바뀐다. 항목을 누르면 아래에 출처와 근거가 나온다.</p>
+    </div>
+    <div class="ctl">
+      <div class="lab" id="lab-loc">시작 폴더</div>
+      <div class="seg" id="ctl-loc" role="group" aria-labelledby="lab-loc"></div>
+      <div class="lab" id="lab-sp">띄우는 방식</div>
+      <div class="seg" id="ctl-spawn" role="group" aria-labelledby="lab-sp"></div>
+      <div class="lab" id="lab-case">케이스</div>
+      <div class="cases" id="ctl-case" role="group" aria-labelledby="lab-case"></div>
+    </div>
+    <div class="caseline" id="caseline" aria-live="polite"></div>
+    <div class="stage-scroll" id="stage-scroll"><div id="stage"></div></div>
+    <div class="scroll-hint">조립도는 옆으로 밀어서 볼 수 있다.</div>
+    <div class="summary" id="summary" aria-live="polite"></div>
+    <div class="legend" id="legend"></div>
+    <div class="detail" id="detail" aria-live="polite"></div>
+  </section>
+
+  <section class="block" id="prio-sec" aria-labelledby="prio-h">
+    <div class="sec-head">
+      <h2 id="prio-h">규칙이 겹치는 다섯 방식</h2>
+      <p>흔히 "규칙의 우선순위"라고 부르지만, 설정의 종류마다 겹치는 방식이 다르다. 이 절은 다섯 가지 방식을 각각 다른 모양으로 보여 준다. 숫자는 위에서 고른 시작 폴더를 기준으로 한다.</p>
+    </div>
+    <div class="nocontest" id="nocontest"></div>
+    <div class="five" id="five"></div>
+  </section>
+
+  <section class="block" id="tacit-sec" aria-labelledby="tacit-h">
+    <div class="sec-head">
+      <h2 id="tacit-h">문서만 읽어서는 알기 어려운 점</h2>
+      <p>아래 내용은 공식 문서의 한 문장만으로는 알기 어렵다. 여러 규칙을 함께 적용하거나 실제로 실행해 봐야 알 수 있다.</p>
+    </div>
+    <div class="tacit" id="tacit"></div>
+  </section>
+
+  <section class="block" id="hist-sec" aria-labelledby="hist-h">
+    <div class="sec-head">
+      <h2 id="hist-h">근거를 고친 기록</h2>
+      <p>이 화면의 근거표에는 한때 잘못된 내용이 있었다. 공식 문서를 요약하는 과정에서 생긴 오류였다. 실행 결과를 관찰하고 원문을 다시 대조해서 바로잡았다.</p>
+    </div>
+    <div class="hist" id="hist"></div>
+  </section>
+
+  <section class="block" id="q-sec" aria-labelledby="q-h">
+    <div class="sec-head">
+      <h2 id="q-h">질문으로 찾기</h2>
+      <p>질문을 누르면 화면이 그 답을 확인할 수 있는 상태로 바뀐다.</p>
+    </div>
+    <div class="qs" id="qs"></div>
+  </section>
+
+  <section class="block" id="paste-sec" aria-labelledby="paste-h">
+    <div class="sec-head">
+      <h2 id="paste-h">다른 하네스 데이터로 다시 그리기</h2>
+      <p>추출 스크립트는 설정 파일을 읽기만 한다. 비밀값은 저장하지 않고, 설정 키의 이름과 파일의 줄 수, 실행 파일의 이름만 남긴다.</p>
+    </div>
+    <div class="paste">
+      <div>
+        <h3>1. 추출</h3>
+        <p class="muted" style="font-size:13.5px;margin-top:4px">하네스 지도 폴더에 있는 <code>harness-map.py</code> 를 실행한다. Claude Code 를 쓰는 사용자 계정으로 실행해야 같은 파일을 읽을 수 있다. <code>--cwd</code> 는 비교할 시작 폴더마다 한 번씩 적는다.</p>
+        <div class="cmd"><code id="cmd-text">python3 harness-map.py --cwd ~/프로젝트A --cwd ~/프로젝트B -o harness.json</code><button type="button" id="cmd-copy">복사</button></div>
+        <p class="faint" style="font-size:12.5px;margin-top:6px" id="copy-status"></p>
+      </div>
+      <div>
+        <h3>2. 붙여넣기</h3>
+        <label class="sr" for="paste-json">추출 JSON</label>
+        <textarea id="paste-json" spellcheck="false" placeholder='{"meta": {...}, "spawn_rules": {...}, "locations": [...]}'></textarea>
+        <div class="row-btns">
+          <button type="button" class="btn" id="paste-apply">다시 그리기</button>
+          <button type="button" class="btn ghost" id="paste-reset">원래 데이터로</button>
+        </div>
+        <div id="paste-out" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="foot"></footer>
+</div>
+
+<script type="application/json" id="harness-data">__HARNESS_DATA__</script>
+<script>
+(function(){
+"use strict";
+var ORIG = JSON.parse(document.getElementById('harness-data').textContent);
+var D = ORIG, IS_ORIG = true;
+var NS = 'http://www.w3.org/2000/svg';
+
+/* ---------- 고정 정의 ---------- */
+var RINGS = [
+  {id:'enf',  name:'집행', sub:'코드가 강제하는 설정'},
+  {id:'tool', name:'도구', sub:'할 수 있는 일의 범위'},
+  {id:'ctx',  name:'맥락', sub:'모델에게 주는 지시문'},
+  {id:'loop', name:'루프', sub:'모델 호출과 도구 실행의 반복'},
+  {id:'core', name:'모델', sub:'언어 모델'}
+];
+var ROWS = [
+  {key:'hooks',        ring:'enf',  origin:'disk',    label:'훅'},
+  {key:'perm_rules',   ring:'enf',  origin:'disk',    label:'권한 규칙'},
+  {key:'perm_mode',    ring:'enf',  origin:'session', label:'권한 모드'},
+  {key:'mcp',          ring:'tool', origin:'disk',    label:'MCP 서버'},
+  {key:'claude_md',    ring:'ctx',  origin:'disk',    label:'CLAUDE.md'},
+  {key:'rules',        ring:'ctx',  origin:'disk',    label:'.claude/rules'},
+  {key:'auto_memory',  ring:'ctx',  origin:'disk',    label:'auto memory'},
+  {key:'skills_list',  ring:'ctx',  origin:'disk',    label:'스킬 목록', ruleKey:'skills'},
+  {key:'skills_loaded',ring:'ctx',  origin:'session', label:'불러온 스킬', ruleKey:'skills'},
+  {key:'output_style', ring:'ctx',  origin:'session', label:'출력 스타일'},
+  {key:'history',      ring:'ctx',  origin:'session', label:'대화 기록'},
+  {key:'model',        ring:'core', origin:'session', label:'모델'}
+];
+var EXTRA_ROWS = {
+  agent_def_enf: {key:'agent_def_enf', ring:'enf', origin:'disk', label:'정의 파일의 도구 제한', extra:true,
+    parent:'등록되지 않음', disk:[{t:'<하위 폴더>/.claude/agents/',m:1},{t:'<이름>.md 의 tools, model',m:1}],
+    state:function(){return {k:'cut', t:'적용되지 않음'};}, tag:'관찰'},
+  agent_def_ctx: {key:'agent_def_ctx', ring:'ctx', origin:'disk', label:'정의 파일 본문', extra:true,
+    parent:'파일을 읽으라는 지시문', disk:[{t:'<하위 폴더>/.claude/agents/',m:1},{t:'<이름>.md (같은 파일)',m:1}],
+    state:function(){return {k:'reload', t:'지시문으로 읽음'};}, tag:'관찰'},
+  agents_md: {key:'agents_md', ring:'ctx', origin:'disk', label:'AGENTS.md', extra:true,
+    parent:'읽지 않음', disk:[{t:'<저장소>/AGENTS.md',m:1},{t:'Codex CLI 의 지시 파일',m:0}],
+    state:function(sp){return sp==='headless'?{k:'cond', from:'disk', t:'Codex CLI 일 때 읽음'}:{k:'cut'};}, tag:'문서'}
+};
+var SPAWNS = [
+  {id:'main',     name:'메인',          d:'새 에이전트 없음'},
+  {id:'fork',     name:'포크',          d:'대화를 복사해서 띄움'},
+  {id:'subagent', name:'서브에이전트',  d:'빈 대화로 시작'},
+  {id:'explore',  name:'Explore·Plan',  d:'탐색·계획용 내장 에이전트'},
+  {id:'teammate', name:'팀원',          d:'독립 세션, 지시문만 받음'},
+  {id:'headless', name:'headless',      d:'claude -p 로 새로 실행'}
+];
+var KIND_WORD = {carry:'부모 세션에서 그대로 받음', reload:'파일에서 새로 읽음', cut:'전달되지 않음', cond:'조건에 따라 다름', conflict:'문서와 관찰이 다름', self:'메인 세션 자신'};
+
+/* ---------- 상태 ---------- */
+var S = {loc:0, spawn:'subagent', caseId:null, extras:[], focus:[], multi:0, sel:'claude_md', prev:null, lastLoc:null};
+
+/* ---------- 도구 함수 ---------- */
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function el(tag, attrs, parent){var e=document.createElementNS(NS,tag); if(attrs){for(var k in attrs){ if(attrs[k]!=null) e.setAttribute(k,attrs[k]); }} if(parent) parent.appendChild(e); return e;}
+function txt(parent, x, y, s, cls, anchor){var t=el('text',{x:x,y:y,'class':cls||'', 'text-anchor':anchor||'start'},parent); t.textContent=s; return t;}
+function tw(s, size){var w=0; s=String(s); for(var i=0;i<s.length;i++){var c=s.charCodeAt(i); w += (c>0x2e80)? size*0.98 : (c===32? size*0.3 : size*0.6);} return w;}
+function fit(s, size, maxw){s=String(s); if(tw(s,size)<=maxw) return s; while(s.length>1 && tw(s+'…',size)>maxw) s=s.slice(0,-1); return s+'…';}
+function short(cwd){var p=String(cwd||'').replace(/\/+$/,'').split('/'); return p[p.length-1]||cwd;}
+function shortPath(p){p=String(p||''); var m=p.match(/projects\/(-[^/]+)\/memory/); if(m){var k=m[1]; return 'projects/…'+k.slice(Math.max(0,k.length-22))+'/memory';} return p;}
+function sum(a,f){return a.reduce(function(s,x){return s+(f?f(x):x);},0);}
+function L(){return D.locations[S.loc];}
+function locIndexBy(name){for(var i=0;i<D.locations.length;i++){ if(short(D.locations[i].cwd)===name) return i; } return -1;}
+function tagHtml(t){var cls = t==='추론'?'tag inf':(t==='관찰'?'tag obs':'tag'); return '<span class="'+cls+'">['+esc(t)+']</span>';}
+
+/* ---------- 값 계산 ---------- */
+function locStats(loc){
+  var c=loc.context||{}, e=loc.enforcement||{}, tl=loc.tools||{};
+  var md=c.claude_md||[], launch=md.filter(function(x){return x.load!=='on-read';});
+  var mcp=tl.mcp||[];
+  var skills=c.skills||[];
+  var perm=(e.perm||[]).reduce(function(a,p){return {allow:a.allow+(p.allow||0),deny:a.deny+(p.deny||0),ask:a.ask+(p.ask||0)};},{allow:0,deny:0,ask:0});
+  return {
+    mdLines: sum(launch,function(x){return x.lines||0;}), md:md, launch:launch,
+    mem: (c.auto_memory||{}).files||0, memo: c.auto_memory||{},
+    mcp:mcp, mcpLocal: mcp.filter(function(m){return m.scope==='local';}),
+    skills:skills, skProj: skills.filter(function(s){return s.scope==='project';}).length,
+    skUser: skills.filter(function(s){return s.scope==='user';}).length, skPlug: skills.filter(function(s){return s.scope==='plugin';}).length,
+    agents: loc.agents||[], hooks:e.hooks||[], perm:perm, mode:(e.mode||{}), model:(e.model||{}),
+    layers:e.layers||[], env:e.env_keys||[], sandbox:!!e.sandbox, rules:c.rules||[], os:c.output_style||{}
+  };
+}
+function rowVals(row, loc){
+  if(row.extra) return {parent:row.parent, disk:row.disk, diskKind:'file'};
+  var s=locStats(loc);
+  switch(row.key){
+    case 'hooks':
+      var hu=s.hooks.filter(function(h){return h.scope!=='plugin';}).length;
+      var ps={}; s.hooks.forEach(function(h){ if(h.scope==='plugin') ps[h.source]=(ps[h.source]||0)+1; });
+      var pn=Object.keys(ps).length;
+      return {parent:s.hooks.length+'개', disk:[{t:'~/.claude/settings.json: '+hu+'개',m:1},{t:'플러그인 '+pn+'곳: '+(s.hooks.length-hu)+'개',m:1}], diskKind:'file'};
+    case 'perm_rules':
+      return {parent:'allow '+s.perm.allow+' · deny '+s.perm.deny+' · ask '+s.perm.ask, disk:(loc.enforcement.perm||[]).map(function(p){return {t:(p.scope==='user'?'~/.claude/settings.json':p.scope+' settings')+' · '+(p.allow+p.deny+p.ask)+'개',m:1};}), diskKind:(loc.enforcement.perm||[]).length?'file':'none'};
+    case 'perm_mode':
+      return {parent:s.mode.value||'default', disk:[{t:'초기값 '+(s.mode.value||'없음')+', '+(s.mode.from||'-')+' 설정',m:1}], diskKind:'seed'};
+    case 'mcp':
+      var by={}; s.mcp.forEach(function(m){by[m.scope]=(by[m.scope]||0)+1;});
+      var lines=[];
+      if(by.user) lines.push({t:'~/.claude.json 의 서버 '+by.user+'개',m:1});
+      if(by.plugin) lines.push({t:'플러그인의 서버 '+by.plugin+'개',m:1});
+      s.mcpLocal.forEach(function(m){lines.push({t:'로컬: '+m.name,m:1,acc:1});});
+      if(by.project) lines.push({t:'.mcp.json 의 서버 '+by.project+'개',m:1});
+      return {parent:s.mcp.length+'개'+(s.mcpLocal.length?' (로컬 '+s.mcpLocal.length+')':''), disk:lines.slice(0,3), diskKind:'file'};
+    case 'claude_md':
+      var dl=s.launch.map(function(x){return {t:shortMd(x.path)+' · '+x.lines+'줄',m:1};});
+      s.md.filter(function(x){return x.load==='on-read';}).forEach(function(x){dl.push({t:'나중에 읽음: '+shortMd(x.path)+' '+x.lines+'줄',m:1,faint:1});});
+      return {parent:s.mdLines+'줄', disk:dl.length?dl.slice(0,3):[{t:'파일 없음',m:0}], diskKind:dl.length?'file':'none'};
+    case 'rules':
+      return {parent:s.rules.length+'개', disk:s.rules.length?[{t:s.rules.length+'개',m:1}]:[{t:'rules 파일 없음',m:0,faint:1}], diskKind:s.rules.length?'file':'none'};
+    case 'auto_memory':
+      return {parent:s.mem+'개 파일', disk:[{t:shortPath(s.memo.dir),m:1},{t:'기억 단위: '+(s.memo.keyed_by||'-'),m:0}], diskKind:'file'};
+    case 'skills_list':
+      return {parent:s.skills.length+'개', disk:[{t:'사용자 '+s.skUser+', 플러그인 '+s.skPlug+(s.skProj?', 프로젝트 '+s.skProj:''),m:1}], diskKind:'file'};
+    case 'skills_loaded':
+      return {parent:'대화 중 불러온 내용', disk:[{t:'파일 없음, 대화에만 있음',m:0}], diskKind:'none'};
+    case 'output_style':
+      return {parent:s.os.value||'기본', disk:[{t:'초기값 outputStyle='+(s.os.value||'없음'),m:1}], diskKind:'seed'};
+    case 'history':
+      return {parent:'대화 전체', disk:[{t:'파일 없음, 대화에만 있음',m:0}], diskKind:'none'};
+    case 'model':
+      return {parent:s.model.value||'-', disk:[{t:'초기값 '+(s.model.value||'-')+', '+(s.model.from||'-')+' 설정',m:1}], diskKind:'seed'};
+  }
+  return {parent:'', disk:[], diskKind:'none'};
+}
+function shortMd(p){p=String(p||''); if(p.indexOf('~/.claude/')===0) return p; var parts=p.split('/'); return parts.slice(-2).join('/');}
+
+function ruleOf(sp, key){
+  if(sp==='explore'){ if(key==='claude_md'||key==='rules') return 'cut'; return (D.spawn_rules.subagent||{})[key]; }
+  return (D.spawn_rules[sp]||{})[key];
+}
+function stateOf(row, sp, loc){
+  if(sp==='main') return {k:'self'};
+  if(row.extra) return row.state(sp, loc);
+  var key=row.ruleKey||row.key, r=ruleOf(sp,key);
+  var s=locStats(loc), mode=s.mode.value, model=s.model.value;
+  if(row.key==='skills_list'){
+    if(r==='cond') return {k:'reload', t:'목록을 읽어 호출 가능'};
+    return {k:r};
+  }
+  if(row.key==='skills_loaded'){
+    return r==='carry'?{k:'carry'}:{k:'cut', t:'부모가 불러온 내용은 모름'};
+  }
+  if(row.key==='auto_memory' && sp==='subagent' && r==='cut'){
+    return {k:'conflict', t:'문서와 관찰이 다름'};
+  }
+  if(key==='perm_mode' && r==='cond'){
+    if(sp==='subagent'||sp==='explore'){
+      return ['bypassPermissions','acceptEdits','auto'].indexOf(mode)>=0 ? {k:'carry', cond:1, t:'부모의 '+mode+' 를 받음'} : {k:'cond', from:'def', t:'정의 파일의 permissionMode'};
+    }
+    if(sp==='teammate') return mode!=='dontAsk' ? {k:'carry', cond:1, t:'리드의 '+mode+' 를 받음'} : {k:'cond', from:'def', t:'dontAsk 는 전달되지 않음'};
+    if(sp==='headless') return {k:'cond', from:'arg', t:'--permission-mode 인자로 정함'};
+  }
+  if(key==='model' && r==='cond'){
+    if(sp==='headless') return {k:'cond', from:'arg', t:'--model 인자로 정함'};
+    var env=s.env.indexOf('CLAUDE_CODE_SUBAGENT_MODEL')>=0;
+    return {k:'cond', from:'parent', t: env?'인자, 정의, 환경변수 순으로 정함':'기본값은 부모 모델'};
+  }
+  if(r==='cond') return {k:'cond', from:'parent', t:'조건에 따라 다름'};
+  return {k:r||'cut'};
+}
+
+/* ---------- 근거 ---------- */
+var EVID = {
+  hooks:[['문서','settings 파일에 적힌 훅은 모든 범위의 것이 전부 실행된다.'],['문서','PreToolUse 같은 도구 호출 훅은 서브에이전트가 도구를 호출할 때에도 실행된다.'],['데이터','enforcement.hooks 에 이벤트, 출처, 실행 파일 이름이 들어 있다.'],['추론','UserPromptSubmit 은 사용자가 입력할 때 실행되는 훅이다. 따라서 워커에서는 실행되지 않을 것으로 본다(T6).']],
+  perm_rules:[['문서','권한 규칙 목록은 여러 범위의 것이 하나로 합쳐진다.'],['문서','같은 도구에 allow 와 deny 가 함께 있으면 deny 가 적용된다.'],['문서','검사 순서는 훅, deny, ask, 권한 모드, allow, canUseTool 이다.'],['데이터','enforcement.perm 에 범위별 규칙 수가 들어 있다.']],
+  perm_mode:[['문서','서브에이전트는 부모의 권한 모드가 bypassPermissions, acceptEdits, auto 중 하나일 때만 그 모드를 받는다.'],['문서','팀원은 리드의 권한 모드를 받는다. dontAsk 만 예외이다.'],['문서','headless 는 --permission-mode 인자로 권한 모드를 정한다.'],['데이터','enforcement.mode 에 현재 값과 출처가 들어 있다.']],
+  mcp:[['문서','서브에이전트는 부모의 MCP 서버를 그대로 받는다. 정의 파일로 범위를 줄일 수 있다.'],['문서','팀원과 headless 는 시작 폴더를 기준으로 MCP 서버를 새로 읽는다.'],['문서','로컬 범위의 MCP 서버는 ~/.claude.json 안에 폴더별로 저장된다.'],['데이터','tools.mcp 에 이름, 범위, 출처가 들어 있다.']],
+  claude_md:[['문서','Claude Code 는 시작할 때 시작 폴더와 그 위 폴더들의 CLAUDE.md 를 이어 붙여 읽는다.'],['문서','시작 폴더 아래에 있는 CLAUDE.md 는 그 폴더의 파일을 읽을 때 추가로 읽는다.'],['문서','서브에이전트는 메인 세션이 읽는 CLAUDE.md 를 모두 다시 읽는다.'],['문서','내장 Explore·Plan 에이전트는 CLAUDE.md 를 읽지 않는다. 정의 파일에 omitClaudeMd 를 둔 에이전트는 managed(조직 관리자) 정책 파일만 읽는다.'],['데이터','context.claude_md 에 파일 경로와 줄 수가 들어 있다.'],['관찰','2026-10-02 작성자 환경에서 서브에이전트가 전역 CLAUDE.md 를 받은 것이 관찰되었다.']],
+  rules:[['문서','.claude/rules 폴더의 파일은 CLAUDE.md 와 같은 방식으로 이어 붙여진다.'],['문서','파일 머리말에 paths 가 있으면, 해당 경로의 파일을 읽을 때만 적용된다.'],['데이터','context.rules 에 파일 목록이 들어 있다.']],
+  auto_memory:[['문서','auto memory(Claude Code 가 자동으로 쌓는 기억 파일) 폴더는 git 저장소마다 하나씩 생긴다. git 저장소가 아니면 시작 폴더마다 하나씩 생긴다.'],['문서','서브에이전트는 auto memory 를 읽지 않는다. 서브에이전트의 기억은 정의 파일의 memory 항목으로 따로 정한다.'],['문서','팀원과 headless 는 auto memory 를 새로 읽는다.'],['데이터','context.auto_memory 에 폴더 위치와 파일 수가 들어 있다.'],['관찰','2026-10-02 작성자 환경에서 general-purpose 서브에이전트가 MEMORY.md 목록을 받았다고 보고했다. 원인은 아직 확인하지 못했다.']],
+  skills_list:[['문서','서브에이전트는 스킬을 호출할 수 있다.'],['문서','팀원과 headless 는 프로젝트와 사용자 범위의 스킬을 새로 읽는다. 팀원은 정의 파일의 skills 항목을 무시한다.'],['데이터','context.skills 에 스킬 이름과 범위가 들어 있다.']],
+  skills_loaded:[['문서','서브에이전트는 부모가 이미 불러온 스킬의 내용을 모른다.'],['문서','포크만 대화와 함께 그 내용을 받는다.'],['데이터','spawn_rules 의 skills 항목 하나를 "스킬 목록"과 "불러온 스킬" 두 줄로 나누어 그렸다.']],
+  output_style:[['문서','출력 스타일은 서브에이전트에 전달되지 않는다.'],['문서','headless 는 설정 파일에 적힌 출력 스타일을 적용한다.'],['데이터','context.output_style 에 현재 값이 들어 있다.']],
+  history:[['문서','대화 기록은 포크에만 전달된다.'],['문서','서브에이전트는 빈 대화로 시작한다. 팀원은 스폰 프롬프트(띄울 때 준 지시문)만 받는다. headless 는 대화가 없다.']],
+  model:[['문서','서브에이전트의 모델은 호출 인자, 정의 파일의 model, CLAUDE_CODE_SUBAGENT_MODEL 환경변수, 부모의 모델 순서로 정해진다.'],['문서','팀원의 모델은 스폰 프롬프트, 정의 파일, 환경변수, 리드의 모델 순서로 정해진다. headless 는 인자로 정한다.'],['데이터','enforcement.model 과 env_keys 에 값이 들어 있다.'],['관찰','프록시를 거쳐 다른 회사의 모델로 실행되는 에이전트는 설명에 "the model argument is ignored" 라고 적혀 있었다. 이 경우 하네스 바깥에서 모델이 다시 정해진다(C2).']],
+  agent_def_enf:[['관찰','2026-10-02 작성자 환경에서, 시작 폴더보다 아래에 둔 에이전트 정의가 에이전트 목록에 나타나지 않았다.'],['관찰','그래서 정의 파일에 적힌 도구 제한과 모델 지정이 적용되지 않았다. 그 에이전트는 모든 도구를 쓸 수 있었다.'],['문서','프로젝트 에이전트는 시작 폴더의 .claude/agents 에 있어야 등록된다.']],
+  agent_def_ctx:[['관찰','같은 환경에서 오케스트레이터는 일반 에이전트를 띄우고 "이 파일을 읽고 따르라"고 지시했다.'],['관찰','그래서 정의 파일은 강제되는 설정으로 적용되지 않았다. 대신 에이전트가 읽어야 할 지시문으로 전달되었다.']],
+  agents_md:[['문서','Codex CLI 는 Claude Code 와 다른 프로그램이다. 그래서 CLAUDE.md 대신 AGENTS.md 를 읽는다. oh-my-codex 도 Codex CLI 에서 동작한다.'],['추론','플러그인이 다른 CLI 를 실행하는 것은 Bash 로 headless 실행을 하는 것과 같다.']]
+};
+var SCOPE_TXT = {
+  hooks:'user, plugin', perm_rules:'managed, local, project, user', perm_mode:'user 설정의 defaultMode', mcp:'user, local, plugin',
+  claude_md:'user, project, 하위 폴더', rules:'project, user', auto_memory:'git 저장소 또는 시작 폴더', skills_list:'user, plugin, project',
+  skills_loaded:'세션', output_style:'settings 의 outputStyle', history:'세션', model:'user 설정', agent_def_enf:'project (하위 폴더)', agent_def_ctx:'project (하위 폴더)', agents_md:'저장소'
+};
+var FORCE_TXT = {
+  enf:'코드가 강제한다. 모델의 판단과 상관없이 적용된다.',
+  tool:'모델이 할 수 있는 일의 범위를 정한다. 여기에 없는 일은 할 수 없다.',
+  ctx:'모델에게 주는 지시문이다. 모델이 따르려고 하지만 보장되지는 않는다.',
+  loop:'모델 호출과 도구 실행을 반복하는 부분이다.',
+  core:'언어 모델이다. 이전 상태 없이 매번 받은 글만 본다.'
+};
+
+/* ---------- 케이스 ---------- */
+// 케이스는 데이터에서 계산한다. 규칙에 맞는 폴더가 없으면 케이스를 비활성으로 둔다.
+var CASES = [];
+var SCOPE_KO = {user:'전역', project:'프로젝트', local:'로컬', subdir:'하위 폴더', managed:'managed'};
+function normRoot(p){return String(p||'').replace(/\/+$/,'');}
+function isAncestor(a,b){a=normRoot(a); b=normRoot(b); return a!==b && b.indexOf(a+'/')===0;}
+function buildCases(){
+  var locs=D.locations, st=locs.map(locStats);
+  var none='이 데이터에는 해당하는 상황이 없다.';
+  var out=[];
+  // 1. 메인과 서브에이전트: 프로젝트 CLAUDE.md 줄 수가 가장 큰 폴더
+  var best=-1, bestProj=-1;
+  st.forEach(function(x,i){var pj=sum(x.launch.filter(function(m){return m.scope==='project';}),function(m){return m.lines||0;}); if(pj>bestProj||(pj===bestProj&&best>=0&&x.mdLines>st[best].mdLines)){bestProj=pj; best=i;}});
+  if(best>=0){
+    var b=st[best], nm=short(locs[best].cwd);
+    var parts=b.launch.map(function(m){return (SCOPE_KO[m.scope]||m.scope)+' '+m.lines+'줄';});
+    out.push({id:1, title:nm+' 에서 서브에이전트 띄우기', li:best, spawn:'subagent', focus:['claude_md','auto_memory','history','hooks'], ok:true,
+      line:nm+' 에서 시작하면 CLAUDE.md 는 '+(parts.length>1?parts.join(', ')+'로 모두 ':'')+b.mdLines+'줄이다. 서브에이전트는 이 파일들을 디스크에서 다시 읽는다. 메인 대화의 내용과 auto memory 파일 '+b.mem+'개는 서브에이전트에 전달되지 않는다. Explore·Plan 으로 띄우면 CLAUDE.md 도 읽지 않는다. 이때는 CLAUDE.md 에 적힌 주의 사항을 모르는 상태로 탐색한다.',
+      alts:{type:'spawn', opts:[['subagent','일반 서브에이전트'],['explore','Explore·Plan']]}, tags:['문서','데이터']});
+  }
+  // 2. 기억이 나뉨: 기억 폴더 기준이 서로 다르고, 하나가 다른 것의 상위 폴더
+  var roots=st.map(function(x){return normRoot(x.memo.root);});
+  var top=-1, kids=[];
+  roots.forEach(function(r,i){ if(!r) return; var k=[]; roots.forEach(function(q,j){ if(q && isAncestor(r,q)) k.push(j); }); if(k.length>kids.length){top=i; kids=k;} });
+  if(top>=0 && kids.length){
+    var grp=[top].concat(kids.sort(function(a,b){return roots[a].length-roots[b].length;})).slice(0,3);
+    var names=grp.map(function(i){return short(locs[i].cwd);}), mems=grp.map(function(i){return st[i].mem+'개';});
+    var mdSame=grp.every(function(i){return st[i].mdLines===st[grp[0]].mdLines;});
+    out.push({id:2, title:'상위·하위 폴더로 나뉜 기억', li:grp[0], spawn:'main', focus:['auto_memory','claude_md'], ok:true,
+      line:names.join(', ')+' 폴더는 auto memory 를 각자 따로 둔다. 폴더 버튼을 차례로 누르면 기억 파일 수가 '+mems.join(', ')+'로 달라진다. '+(mdSame?'CLAUDE.md 는 '+grp.length+'곳 모두 '+st[grp[0]].mdLines+'줄로 같다. ':'')+'상위 폴더에서 저장한 기억은 하위 폴더에서 시작하면 읽지 않는다. 반대 경우도 마찬가지이다.',
+      alts:{type:'loc', opts:grp.map(function(i){return [i, short(locs[i].cwd)];})}, tags:['데이터','문서']});
+  } else out.push({id:2, title:'상위·하위 폴더로 나뉜 기억', ok:false, why:none});
+  // 3. 폴더 전용 MCP: scope=local 이 있는 폴더
+  var withLocal=[]; st.forEach(function(x,i){ if(x.mcpLocal.length) withLocal.push(i); });
+  if(withLocal.length){
+    var plain=-1; st.forEach(function(x,i){ if(plain<0 && !x.mcpLocal.length) plain=i; });
+    var opts=withLocal.slice(0,2); if(plain>=0) opts.push(plain);
+    var sents=withLocal.slice(0,2).map(function(i){return short(locs[i].cwd)+' 에서 시작하면 로컬 MCP 서버('+st[i].mcpLocal.map(function(m){return m.name;}).join(', ')+')가 추가된다.';});
+    var dupl=[]; withLocal.forEach(function(i){ st[i].mcpLocal.forEach(function(m){ if(st[i].mcp.some(function(u){return u.scope!=='local' && u.name===m.name;})) dupl.push(m.name); }); });
+    out.push({id:3, title:'시작 폴더에 붙은 MCP 서버', li:withLocal[0], spawn:'main', focus:['mcp'], ok:true,
+      line:sents.join(' ')+(plain>=0?' '+short(locs[plain].cwd)+' 에서 시작하면 로컬 MCP 서버가 없다.':'')+(dupl.length?' 이름이 '+dupl[0]+' 인 서버는 다른 범위에도 있다. 이때 어느 쪽을 쓰는지는 근거표에 없다.':'')+' 설치 목록에 있는 MCP 서버라도 연결에 실패하면 알림 없이 빠진다. 2026-10-02 작성자 환경에서는 플러그인 MCP 서버 하나가 연결 시간 초과로 빠지는 것이 관찰되었다.',
+      alts:{type:'loc', opts:opts.map(function(i){return [i, short(locs[i].cwd)];})}, tags:['데이터','관찰']});
+  } else out.push({id:3, title:'시작 폴더에 붙은 MCP 서버', ok:false, why:none});
+  // 4. 팀 기능 + 모드 전파
+  var MODES=['auto','acceptEdits','bypassPermissions'];
+  var team=[]; st.forEach(function(x,i){ if(x.env.indexOf('CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS')>=0 && MODES.indexOf(x.mode.value)>=0) team.push(i); });
+  if(team.length){
+    var t=team.indexOf(best)>=0?best:team[0], m=st[t].mode.value;
+    out.push({id:4, title:'팀 기능과 '+m+' 모드를 함께 쓸 때', li:t, spawn:'teammate', focus:['perm_mode','auto_memory','skills_list','mcp'], ok:true,
+      line:short(locs[t].cwd)+' 의 설정에는 팀 기능(여러 에이전트를 독립된 세션으로 함께 띄우는 실험 기능)이 켜져 있고, 권한 모드는 '+m+' 이다. 이 경우 이름을 붙여 호출한 서브에이전트가 확인 없이 팀원으로 실행된다. 권한 모드 '+m+' 는 서브에이전트와 팀원 모두에게 전달된다. auto memory 는 서브에이전트에는 전달되지 않지만, 팀원은 파일에서 새로 읽는다(이 폴더는 '+st[t].mem+'개). 따라서 같은 호출이라도 팀 기능 설정에 따라 받는 내용이 달라진다. 2026-10-02 작성자 환경에서도 이름을 붙여 호출한 서브에이전트가 팀원으로 실행되었다.',
+      alts:{type:'spawn', opts:[['subagent','서브에이전트로 실행할 때'],['teammate','팀원으로 실행할 때']]}, tags:['문서','데이터','관찰']});
+  } else out.push({id:4, title:'팀 기능과 권한 모드 전달', ok:false, why:'이 데이터에는 팀 기능을 켜고 auto·acceptEdits·bypassPermissions 모드를 쓰는 폴더가 없다.'});
+  // 5~7. 데이터와 무관한 일반 설명
+  out.push({id:5, title:'하위 폴더에 있는 에이전트 정의 파일', li:null, spawn:'subagent', focus:['agent_def_enf','agent_def_ctx'], extras:['agent_def_enf','agent_def_ctx'], ok:true,
+    line:'에이전트 정의 파일이 시작 폴더보다 아래 폴더의 .claude/agents 에 있으면 등록되지 않는다. 그러면 정의 파일에 적힌 도구 제한과 모델 지정이 적용되지 않는다. 오케스트레이터가 "이 파일을 읽고 따르라"고 지시하면, 같은 파일은 지시문으로만 전달된다. 2026-10-02 작성자 환경에서 이렇게 되는 것이 관찰되었다.',
+    tags:['문서','관찰']});
+  var cur=st[S.loc]||st[0], plug={}; cur.hooks.forEach(function(h){ if(h.scope==='plugin'){var k=String(h.source).split('@')[0]; plug[k]=(plug[k]||0)+1;} });
+  var pk=Object.keys(plug).sort(function(a,b){return plug[b]-plug[a];}), pn=sum(pk,function(k){return plug[k];});
+  out.push({id:6, title:'서드파티 오케스트레이터', li:null, spawn:'headless', focus:['hooks','claude_md','agents_md'], extras:['agents_md'], ok:true,
+    line:(pn?'이 데이터에서 플러그인이 추가한 훅은 '+pn+'개이다('+pk.map(function(k){return k+' '+plug[k]+'개';}).join(', ')+'). ':'이 데이터에는 훅을 추가한 플러그인이 없다. ')+'플러그인을 설치하면 그 훅은 모든 세션에 바로 적용된다. 플러그인이 다른 CLI 를 실행하는 것은 headless 실행에 해당한다. Codex CLI 는 CLAUDE.md 대신 AGENTS.md 를 읽는다. oh-my-claudecode 같은 오케스트레이션 플러그인을 설치하면 기존 훅에 새 훅이 더해지고, 실행 순서는 보장되지 않는다.',
+    tags:['데이터','문서','추론']});
+  var pre=cur.hooks.filter(function(h){return h.event==='PreToolUse';}).length;
+  out.push({id:7, title:'Workflow 로 워커를 여러 개 띄울 때', li:null, spawn:'subagent', focus:['hooks','history','auto_memory','model'], multi:20, ok:true,
+    line:'Workflow 의 워커(작업을 나누어 맡는 에이전트)는 서브에이전트를 여러 번 띄우는 것으로 본다. 각 워커는 CLAUDE.md 를 읽지만 메인 대화와 auto memory 는 받지 않는다. '+(pre?'PreToolUse 훅 '+pre+'개는 워커가 도구를 호출할 때마다 실행된다. ':'')+'모델을 따로 지정하지 않으면 모든 워커가 부모와 같은 모델로 실행된다. 아래에서 워커 수를 바꿔 볼 수 있다.',
+    tags:['추론']});
+  CASES=out;
+}
+function caseById(id){return CASES.filter(function(x){return x.id===id;})[0];}
+
+/* ---------- 메타·명제 ---------- */
+function renderMeta(){
+  var m=D.meta||{};
+  document.getElementById('meta').innerHTML =
+    'Claude Code '+esc(m.claude_code||'?')+'<br>추출 '+esc(String(m.generated_at||'').slice(0,10))+' · 시작 폴더 '+D.locations.length+'곳'+(IS_ORIG?'':'<br>붙여 넣은 데이터')+'<br>이 데이터의 하네스';
+}
+function renderProps(){
+  var P=[
+    ['P1','하네스는 모델을 둘러싼 설정과 장치 전체를 말한다. 하네스는 여러 겹으로 모델을 감싸며, 겹마다 강제력이 다르다. 맥락 겹은 모델에게 주는 지시문이고 강제력이 없다. 도구 겹은 모델이 할 수 있는 일의 범위를 정한다. 집행 겹은 모델의 판단과 상관없이 코드가 강제한다.', function(){document.getElementById('hero-fig').scrollIntoView({behavior:'smooth'});}, '분해도에서 보기'],
+    ['P2','설정이 여러 곳에 있을 때 적용되는 방식은 설정의 종류마다 다르다. 위 범위의 값을 쓰는 경우, 모두 합치는 경우, 모두 실행하는 경우, 이어 붙이는 경우, 하나만 고르는 경우가 있다.', function(){go('prio-sec');}, '다섯 방식 보기'],
+    ['P3','같은 사용자 설정이라도 시작 폴더가 다르면 모델이 받는 내용이 달라진다. auto memory 와 로컬 MCP 서버가 시작 폴더에 따라 정해지기 때문이다.', function(){applyCase(2);}, '케이스 2 보기'],
+    ['P4','스폰(새 에이전트를 띄우는 것)을 하면, 새 에이전트는 디스크에 저장된 파일을 다시 읽는다. 메인 대화에서만 오간 내용은 새 에이전트에 전달되지 않는다. 그러므로 하위 에이전트도 지켜야 하는 규칙은 파일에 적어야 한다.', function(){applyCase(1);}, '케이스 1 보기'],
+    ['P5','새 에이전트를 띄우는 기본 방식은 포크, 서브에이전트, 팀원, headless 네 가지이다. 서드파티 오케스트레이터와 대규모 실행은 이 네 가지를 조합해서 쓴다.', function(){applyCase(7);}, '케이스 7 보기']
+  ];
+  var box=document.getElementById('props'); box.innerHTML='';
+  P.forEach(function(p){
+    var d=document.createElement('div'); d.className='prop';
+    d.innerHTML='<b>'+p[0]+'</b><p>'+esc(p[1])+(p[0]==='P5'?' '+tagHtml('추론'):'')+'</p>';
+    var g=document.createElement('div'); g.className='go'; var b=document.createElement('button'); b.type='button'; b.className='linkbtn'; b.textContent=p[3]; b.addEventListener('click',p[2]); g.appendChild(b); d.appendChild(g); box.appendChild(d);
+  });
+}
+function go(id){var e=document.getElementById(id); if(e) e.scrollIntoView({behavior:'smooth',block:'start'});}
+
+/* ---------- 분해도 ---------- */
+function renderHero(){
+  var host=document.getElementById('hero-fig'); host.innerHTML='';
+  var W=700, H=462, cx=340, base=345, kx=0.6, ky=0.2, gap=72, th=9;
+  var svg=el('svg',{viewBox:'0 0 '+W+' '+H, role:'img', 'aria-label':'맨 위에 모델이 있고, 그 아래로 루프, 맥락, 도구, 집행이 차례로 넓어지는 다섯 겹 분해도'},host);
+  var s=locStats(L());
+  var plates=[
+    {d:0, h:130, name:'집행', sub:'코드가 강제하는 설정', val:['훅 '+s.hooks.length+'개, 권한 규칙 '+(s.perm.allow+s.perm.deny+s.perm.ask)+'개', '권한 모드 '+(s.mode.value||'default')+', 샌드박스 '+(s.sandbox?'켜짐':'꺼짐')]},
+    {d:1, h:106, name:'도구', sub:'할 수 있는 일의 범위', val:['내장 도구와 MCP 서버 '+s.mcp.length+'개'+(s.mcpLocal.length?' (로컬 '+s.mcpLocal.length+'개)':'')]},
+    {d:2, h:82,  name:'맥락', sub:'모델에게 주는 지시문', val:['CLAUDE.md '+s.mdLines+'줄, 기억 '+s.mem+'개', '스킬 '+s.skills.length+'개, 에이전트 '+s.agents.length+'개']},
+    {d:3, h:58,  name:'루프', sub:'Claude Code', val:['모델 호출과 도구 실행의 반복']},
+    {d:4, h:32,  name:'모델', sub:'llm', val:[s.model.value||'-']}
+  ];
+  function P(x,y,z){return [cx+(x-y)*kx, base+(x+y)*ky - z];}
+  function pts(a){return a.map(function(p){return p[0].toFixed(1)+','+p[1].toFixed(1);}).join(' ');}
+  var ext=[];
+  plates.forEach(function(p,i){
+    var z=i*gap, h=p.h;
+    var A=P(-h,-h,z),B=P(h,-h,z),C=P(h,h,z),Dd=P(-h,h,z);
+    var Bt=[B[0],B[1]+th],Ct=[C[0],C[1]+th],Dt=[Dd[0],Dd[1]+th];
+    ext[i]={top:A[1], bot:C[1]+th};
+    el('polygon',{points:pts([Dd,C,Ct,Dt]),style:'fill:var(--side-'+p.d+')'},svg);
+    el('polygon',{points:pts([C,B,Bt,Ct]),style:'fill:var(--side-'+Math.min(4,p.d+1)+')'},svg);
+    el('polygon',{points:pts([A,B,C,Dd]),style:'fill:var(--plate-'+p.d+');stroke:var(--ink);stroke-width:1'},svg);
+    if(p.d===3){
+      var c0=P(0,0,z), rx=h*kx*1.15, ry=h*ky*1.15;
+      el('ellipse',{cx:c0[0],cy:c0[1],rx:rx,ry:ry,style:'fill:none;stroke:var(--ink);stroke-width:1.4;stroke-dasharray:4 3'},svg);
+      el('path',{d:'M'+(c0[0]+rx-6)+','+(c0[1]-5)+' l6,5 l5,-6',style:'fill:none;stroke:var(--ink);stroke-width:1.4'},svg);
+    }
+    var lx=496, ly=B[1];
+    el('line',{x1:B[0]+3,y1:B[1],x2:lx-6,y2:ly,style:'stroke:var(--ink-3);stroke-width:1'},svg);
+    txt(svg,lx,ly+1,p.name,'h-name');
+    txt(svg,lx+tw(p.name,16)+6,ly+1,p.sub,'h-sub');
+    p.val.forEach(function(v,k){txt(svg,lx,ly+19+k*15,fit(v,12,W-lx-4),'h-val');});
+  });
+  // 사용자 표기 {(llm)} → {Claude Code(llm)} → {훅·메모리·룰·툴 … (llm), 루프}
+  function brace(x, yTop, yBot, l1, l2){
+    el('path',{d:'M'+(x+7)+','+yTop+' h-7 V'+yBot+' h7',style:'fill:none;stroke:var(--ink);stroke-width:1.5'},svg);
+    el('line',{x1:132,y1:yBot,x2:x,y2:yBot,style:'stroke:var(--ink-3);stroke-width:1'},svg);
+    txt(svg,128,yBot-4,l1,'h-br','end');
+    l2.forEach(function(t,k){txt(svg,128,yBot+12+k*14,t,'h-sub','end');});
+  }
+  brace(140, ext[4].top-4, ext[4].bot+2, '{ 모델 }', ['(llm)']);
+  brace(154, ext[4].top-4, ext[3].bot+2, '{ Claude Code }', ['루프와 모델']);
+  brace(168, ext[4].top-4, ext[0].bot, '{ 이 데이터의 하네스 }', ['집행, 도구, 맥락','루프, 모델 전체']);
+  txt(svg,0,16,short(L().cwd)+' 폴더 기준. 위쪽 판일수록 모델에 가깝다.','h-sub');
+}
+
+/* ---------- 컨트롤 ---------- */
+function renderControls(){
+  var lb=document.getElementById('ctl-loc'); lb.innerHTML='';
+  D.locations.forEach(function(loc,i){
+    var s=locStats(loc);
+    var b=document.createElement('button'); b.type='button'; b.className='opt'; b.id='loc-'+i;
+    b.setAttribute('aria-pressed', String(i===S.loc));
+    var extra=[]; if(s.mcpLocal.length) extra.push('로컬 MCP '+s.mcpLocal.map(function(m){return m.name;}).join(', '));
+    if(s.skProj) extra.push('프로젝트 스킬 '+s.skProj+'개');
+    b.innerHTML='<span class="n">'+esc(short(loc.cwd))+(loc.git_root?' <span class="mono" style="font-size:11px;font-weight:400">git</span>':'')+'</span><span class="d">CLAUDE.md '+s.mdLines+'줄, 기억 '+s.mem+'개</span>'+(extra.length?'<span class="d">'+esc(extra.join(', '))+'</span>':'');
+    b.title=loc.cwd;
+    b.addEventListener('click',function(){S.caseId=null; S.extras=[]; S.focus=[]; S.multi=0; setLoc(i);});
+    lb.appendChild(b);
+  });
+  var sb=document.getElementById('ctl-spawn'); sb.innerHTML='';
+  SPAWNS.forEach(function(sp){
+    var b=document.createElement('button'); b.type='button'; b.className='opt'; b.id='sp-'+sp.id;
+    b.setAttribute('aria-pressed', String(sp.id===S.spawn));
+    b.innerHTML='<span class="n">'+esc(sp.name)+'</span><span class="d">'+esc(sp.d)+'</span>';
+    b.addEventListener('click',function(){S.caseId=null; S.extras=[]; S.focus=[]; S.multi=0; S.spawn=sp.id; renderAll();});
+    sb.appendChild(b);
+  });
+  var cb=document.getElementById('ctl-case'); cb.innerHTML='';
+  CASES.forEach(function(c){
+    var b=document.createElement('button'); b.type='button'; b.className='case'; b.id='case-'+c.id;
+    b.setAttribute('aria-pressed', String(S.caseId===c.id));
+    b.innerHTML='<b>'+c.id+'</b>'+esc(c.title);
+    if(!c.ok){b.disabled=true; b.title=c.why; b.setAttribute('aria-label','케이스 '+c.id+', '+c.title+'. '+c.why);}
+    b.addEventListener('click',function(){applyCase(c.id);});
+    cb.appendChild(b);
+  });
+}
+function setLoc(i){S.loc=i; renderAll();}
+function applyCase(id){
+  var c=caseById(id); if(!c || !c.ok) return;
+  S.caseId=id; if(c.li!=null) S.loc=c.li; S.spawn=c.spawn; S.extras=(c.extras||[]).slice(); S.focus=c.focus.slice(); S.multi=c.multi||0;
+  S.sel=c.focus[0];
+  renderAll();
+  go('stage-sec');
+}
+function renderCaseline(){
+  var box=document.getElementById('caseline'); box.innerHTML='';
+  var c=caseById(S.caseId);
+  var t=document.createElement('div'); t.className='txt';
+  if(!c){
+    t.innerHTML='<span class="muted">케이스를 고르면 시작 폴더와 띄우는 방식이 그 케이스에 맞게 바뀐다. 살펴볼 줄에는 파란 띠가 표시된다. 지금은 직접 고른 상태이다.</span>';
+    box.appendChild(t); return;
+  }
+  t.innerHTML='<b>케이스 '+c.id+'.</b> '+esc(c.line)+' '+c.tags.map(tagHtml).join(' ');
+  box.appendChild(t);
+  if(c.alts){
+    var a=document.createElement('div'); a.className='alts'; a.setAttribute('role','group'); a.setAttribute('aria-label','비교할 상태');
+    c.alts.opts.forEach(function(o){
+      var li = c.alts.type==='loc'?o[0]:-1;
+      var b=document.createElement('button'); b.type='button'; b.textContent=o[1];
+      var on = c.alts.type==='spawn' ? S.spawn===o[0] : S.loc===li;
+      b.setAttribute('aria-pressed',String(on));
+      b.addEventListener('click',function(){ if(c.alts.type==='spawn') S.spawn=o[0]; else S.loc=li; renderAll(); });
+      a.appendChild(b);
+    });
+    box.appendChild(a);
+  }
+  if(c.multi){
+    var lab=document.createElement('label'); lab.setAttribute('for','multi-n');
+    lab.innerHTML='워커 수 <input type="number" id="multi-n" min="1" max="200" value="'+S.multi+'">';
+    box.appendChild(lab);
+    lab.querySelector('input').addEventListener('change',function(e){var v=parseInt(e.target.value,10); if(!(v>=1)) v=1; if(v>200) v=200; S.multi=v; renderStage(); renderSummary(); renderDetail();});
+  }
+}
+
+/* ---------- 조립도 ---------- */
+var G={W:1000, colP:[18,330], colD:[400,596], colC:[666,964], inset:12, top:70, hdr:34, gap:8, pad:10, minH:30};
+function visibleRows(){
+  var rows=ROWS.slice();
+  S.extras.forEach(function(k){var r=EXTRA_ROWS[k]; if(r) rows.push(r);});
+  return rows;
+}
+function layout(rows){
+  var y=G.top, out={rows:[], frames:[]}, tops=[];
+  RINGS.forEach(function(R,d){
+    tops[d]=y; y+=G.hdr;
+    rows.filter(function(r){return r.ring===R.id;}).forEach(function(r){
+      var v=rowVals(r,L());
+      var n=Math.max(1,(v.disk||[]).length);
+      var h=Math.max(G.minH, n*14+12);
+      out.rows.push({r:r, v:v, y:y, h:h, d:d}); y+=h+G.gap;
+    });
+  });
+  for(var d=RINGS.length-1; d>=0; d--){ y+=G.pad; out.frames[d]={top:tops[d], bot:y}; }
+  out.H=y+40; return out;
+}
+function frameX(col, d){return [col[0]+d*G.inset, col[1]-d*G.inset];}
+function drawFrames(g, col, lay, dim, idPrefix){
+  RINGS.forEach(function(R,d){
+    var f=lay.frames[d], x=frameX(col,d), ex=3+d*2;
+    var side='var(--side-'+d+')';
+    el('polygon',{points:[x[1],f.top, x[1]+ex,f.top+ex, x[1]+ex,f.bot+ex, x[1],f.bot].join(' '), style:'fill:'+side+';opacity:'+(dim?0.35:1)},g);
+    el('polygon',{points:[x[0],f.bot, x[1],f.bot, x[1]+ex,f.bot+ex, x[0]+ex,f.bot+ex].join(' '), style:'fill:'+side+';opacity:'+(dim?0.35:1)},g);
+    el('rect',{x:x[0],y:f.top,width:x[1]-x[0],height:f.bot-f.top, style:'fill:var(--plate-'+d+');stroke:var(--ink-3);stroke-width:1;opacity:'+(dim?0.45:1)},g);
+    var t=txt(g,x[0]+10,f.top+15,R.name,'t-ring'); if(dim) t.setAttribute('opacity','0.5');
+    var extra='';
+    if(R.id==='enf') extra=' · 샌드박스 '+(locStats(L()).sandbox?'켜짐':'꺼짐');
+    if(R.id==='tool') extra=' · 내장 도구와 MCP';
+    var st=txt(g,x[0]+10+tw(R.name,12)+8,f.top+15,fit(R.sub+extra,11,x[1]-x[0]-tw(R.name,12)-28),'t-ringsub'); if(dim) st.setAttribute('opacity','0.5');
+  });
+}
+function chipShape(g, x, y, w, h, origin, mode){
+  // mode: solid | ghost | hatch | split
+  var rx = origin==='session' ? h/2 : 2;
+  var style;
+  if(mode==='ghost') style='fill:none;stroke:var(--ink-3);stroke-width:1.2;stroke-dasharray:4 3';
+  else if(mode==='hatch') style='fill:url(#hatch);stroke:var(--ink);stroke-width:1.2';
+  else if(mode==='split') style='fill:url(#hatch-warn);stroke:var(--warn);stroke-width:1.4;stroke-dasharray:4 3';
+  else style='fill:var(--chip);stroke:var(--ink);stroke-width:1.2';
+  var r=el('rect',{x:x,y:y,width:w,height:h,rx:rx,'class':'shape',style:style},g);
+  if(origin==='disk' && mode!=='ghost'){
+    el('rect',{x:x+1,y:y+h-3.5,width:w-2,height:3.5,style:'fill:'+(mode==='split'?'var(--warn)':'var(--ink)')},g);
+  } else if(origin==='disk'){
+    el('line',{x1:x+2,y1:y+h-1.5,x2:x+w-2,y2:y+h-1.5,style:'stroke:var(--ink-3);stroke-width:2.5;stroke-dasharray:4 3'},g);
+  }
+  return r;
+}
+var lastVals={};
+function markChanged(g,key,val,xr,y,withWord){
+  if(lastVals[key]==null || lastVals[key]===val) return;
+  el('circle',{cx:xr-3,cy:y+3,r:5,style:'fill:var(--accent);stroke:var(--surface);stroke-width:2'},g);
+  if(withWord) txt(g,xr+8,y+8,'변경됨','t-sm t-accent');
+}
+function renderStage(){
+  var host=document.getElementById('stage'); host.innerHTML='';
+  var rows=visibleRows(), lay=layout(rows), loc=L(), sp=S.spawn;
+  var svg=el('svg',{viewBox:'0 0 '+G.W+' '+lay.H, role:'group', 'aria-label':'조립도. 왼쪽은 부모 세션, 가운데는 디스크, 오른쪽은 새 세션이다.'},host);
+  var defs=el('defs',null,svg);
+  var pat=el('pattern',{id:'hatch',width:6,height:6,patternUnits:'userSpaceOnUse',patternTransform:'rotate(45)'},defs);
+  el('rect',{width:6,height:6,style:'fill:var(--chip)'},pat); el('line',{x1:0,y1:0,x2:0,y2:6,style:'stroke:var(--ink-3);stroke-width:2'},pat);
+  var pw=el('pattern',{id:'hatch-warn',width:6,height:6,patternUnits:'userSpaceOnUse',patternTransform:'rotate(45)'},defs);
+  el('rect',{width:6,height:6,style:'fill:var(--warn-tint)'},pw); el('line',{x1:0,y1:0,x2:0,y2:6,style:'stroke:var(--warn);stroke-width:1.5'},pw);
+  ['ink','warn','ink-3'].forEach(function(c){
+    var m=el('marker',{id:'arr-'+c,viewBox:'0 0 10 10',refX:9,refY:5,markerWidth:7,markerHeight:7,orient:'auto-start-reverse'},defs);
+    el('path',{d:'M0,0 L10,5 L0,10 z',style:'fill:var(--'+c+')'},m);
+  });
+
+  var main = sp==='main';
+  var spDef=SPAWNS.filter(function(x){return x.id===sp;})[0];
+  // 열 머리
+  txt(svg,G.colP[0],24,'부모 세션 (메인)','t-head');
+  txt(svg,G.colP[0],42,'시작 폴더: '+short(loc.cwd)+(loc.git_root?' (git 저장소)':' (git 저장소 아님)'),'t-sm');
+  txt(svg,G.colD[0],24,'디스크','t-head');
+  txt(svg,G.colD[0],42,'세션이 끝나도 남는 파일','t-sm');
+  txt(svg,G.colC[0],24,main?'새 세션 없음':'새 세션: '+spDef.name+(S.multi?' '+S.multi+'개':''),'t-head');
+  txt(svg,G.colC[0],42,main?'메인 세션이 디스크에서 읽은 내용만 표시':spDef.d,'t-sm');
+
+  // 디스크 트레이(가라앉은 면)
+  var tTop=G.top, tBot=lay.frames[0].bot;
+  el('rect',{x:G.colD[0]-8,y:tTop,width:G.colD[1]-G.colD[0]+16,height:tBot-tTop,style:'fill:var(--tray)'},svg);
+  el('path',{d:'M'+(G.colD[0]-8)+','+tBot+' V'+tTop+' H'+(G.colD[1]+8),style:'fill:none;stroke:var(--tray-edge);stroke-width:4'},svg);
+
+  // 프레임
+  var gp=el('g',null,svg); drawFrames(gp,G.colP,lay,false);
+  if(S.multi){
+    [2,1].forEach(function(k){var gm=el('g',{transform:'translate('+(k*8)+','+(-k*8)+')',opacity:0.55},svg); drawFrames(gm,G.colC,lay,true);});
+  }
+  var gc=el('g',null,svg); drawFrames(gc,G.colC,lay,main);
+
+  // 초점 띠
+  lay.rows.forEach(function(o){
+    if(S.focus.indexOf(o.r.key)>=0){
+      el('rect',{x:6,y:o.y-3,width:G.W-12,height:o.h+6,style:'fill:var(--accent);opacity:0.13'},svg);
+      el('rect',{x:2,y:o.y-3,width:4,height:o.h+6,style:'fill:var(--accent)'},svg);
+    }
+  });
+
+  var lines=el('g',null,svg), chips=el('g',null,svg);
+  var newVals={}, counts={carry:0,reload:0,cut:0,cond:0,conflict:0};
+  lay.rows.forEach(function(o){
+    var r=o.r, v=o.v, d=o.d, yc=o.y+o.h/2;
+    var px=frameX(G.colP,d), cxr=frameX(G.colC,d);
+    var pL=px[0]+8, pR=px[1]-8, cL=cxr[0]+8, cR=cxr[1]-8;
+    var st=stateOf(r,sp,loc);
+    if(!main) counts[st.k]=(counts[st.k]||0)+1;
+
+    // 부모 칩
+    var gpc=el('g',{'class':'chip'+(S.sel===r.key?' sel':''),tabindex:0,role:'button','aria-label':r.label+', 부모 세션: '+v.parent},chips);
+    chipShape(gpc,pL,o.y,pR-pL,o.h,r.origin,'solid');
+    var plw=Math.min(tw(r.label,12.5),(pR-pL)*0.55);
+    txt(gpc,pL+12,yc+4,fit(r.label,12.5,(pR-pL)*0.55),'t-lab');
+    txt(gpc,pR-12,yc+4,fit(v.parent,11.5,(pR-pL)-plw-34),'t-val','end');
+    bindChip(gpc,r.key);
+    newVals['p:'+r.key]=v.parent; markChanged(gpc,'p:'+r.key,v.parent,pR,o.y,false);
+
+    // 디스크 칸
+    var dx=G.colD[0], dw=G.colD[1]-G.colD[0];
+    var gd=el('g',{'class':'chip',tabindex:0,role:'button','aria-label':r.label+', 디스크: '+(v.disk||[]).map(function(x){return x.t;}).join(', ')},chips);
+    if(v.diskKind==='file'){
+      chipShape(gd,dx,o.y,dw,o.h,'disk','solid');
+    }
+    (v.disk||[]).forEach(function(line,i){
+      var ty=o.y+15+i*14 + (v.disk.length===1? (o.h-30)/2 : 0);
+      var cls=(line.m?'t-mono-sm':'t-sm')+((line.faint||v.diskKind!=='file')?' t-faint':'')+(line.acc?' t-accent':'');
+      txt(gd,dx+10,ty,fit(line.t,10.5,dw-18),cls);
+    });
+    if(v.diskKind==='none') el('line',{x1:dx+8,y1:o.y+o.h-4,x2:dx+dw-8,y2:o.y+o.h-4,style:'stroke:var(--ink-3);stroke-width:1;stroke-dasharray:2 3'},gd);
+    bindChip(gd,r.key);
+    newVals['d:'+r.key]=(v.disk||[]).map(function(x){return x.t;}).join('|'); if(v.diskKind==='file') markChanged(gd,'d:'+r.key,newVals['d:'+r.key],dx+dw,o.y,false);
+
+    // 메인일 때: 디스크 → 부모 읽기 선
+    if(main){
+      if(v.diskKind==='file' && !r.extra) el('path',{d:'M'+dx+','+yc+' H'+(pR+2),'class':'ln thin','marker-end':'url(#arr-ink-3)'},lines);
+      return;
+    }
+
+    // 자식 칩
+    var mode = st.k==='cut'?'ghost':(st.k==='cond'?'hatch':(st.k==='conflict'?'split':'solid'));
+    var gcc=el('g',{'class':'chip'+(S.sel===r.key?' sel':''),tabindex:0,role:'button','aria-label':r.label+', 새 세션: '+KIND_WORD[st.k]+(st.t?', '+st.t:'')},chips);
+    chipShape(gcc,cL,o.y,cR-cL,o.h,r.origin,mode);
+    var labCls='t-lab'+(st.k==='cut'?' t-faint':'');
+    var clw=Math.min(tw(r.label,12.5),(cR-cL)*0.42);
+    txt(gcc,cL+12,yc+4,fit(r.label,12.5,(cR-cL)*0.42),labCls);
+    var childVal;
+    if(st.k==='cut') childVal='전달되지 않음';
+    else if(st.k==='conflict') childVal=st.t;
+    else if(st.k==='cond') childVal=st.t||'조건에 따라 다름';
+    else if(st.t) childVal=st.t;
+    else childVal=(r.key==='history'&&sp==='fork')?'대화 전체':v.parent;
+    if(S.multi && r.key==='hooks') childVal=v.parent+', 세션 '+S.multi+'개에서 실행';
+    var vt=txt(gcc,cR-12,yc+4,fit(childVal,11.5,(cR-cL)-clw-34),'t-val'+(st.k==='cut'?' t-faint':'')+(st.k==='conflict'?' t-warn':''),'end');
+    bindChip(gcc,r.key);
+    var key='c:'+r.key; newVals[key]=KIND_WORD[st.k]+'|'+childVal;
+    markChanged(gcc,key,newVals[key],cR,o.y,true);
+
+    // 선
+    var peak=o.y-4;
+    if(st.k==='carry' || (st.k==='cond' && st.from==='parent')){
+      var dp='M'+pR+','+yc+' C'+(pR+40)+','+yc+' '+(dx-22)+','+peak+' '+(dx+6)+','+peak+' H'+(dx+dw-6)+' C'+(dx+dw+22)+','+peak+' '+(cL-40)+','+yc+' '+(cL-2)+','+yc;
+      el('path',{d:dp,'class':'ln under'},lines);
+      el('path',{d:dp,'class':'ln'+(st.k==='cond'?' dash':''),'marker-end':'url(#arr-ink)'},lines);
+    } else if(st.k==='reload' || (st.k==='cond' && st.from==='disk')){
+      el('path',{d:'M'+(dx+dw)+','+yc+' H'+(cL-2),'class':'ln'+(st.k==='cond'?' dash':''),'marker-end':'url(#arr-ink)'},lines);
+    } else if(st.k==='cond'){
+      el('path',{d:'M'+(cL-44)+','+yc+' H'+(cL-2),'class':'ln dash','marker-end':'url(#arr-ink)'},lines);
+      txt(lines,cL-48,yc+4,st.from==='arg'?'실행 인자':'정의 파일','t-sm','end');
+    } else if(st.k==='conflict'){
+      el('path',{d:'M'+(dx+dw)+','+yc+' H'+(cL-2),'class':'ln warn','marker-end':'url(#arr-warn)'},lines);
+      txt(lines,dx+dw+8,yc-5,'관찰','t-sm t-warn');
+      el('path',{d:'M'+pR+','+yc+' h28 m0,-8 v16','class':'ln thin'},lines);
+    } else if(st.k==='cut'){
+      el('path',{d:'M'+pR+','+yc+' h30 m0,-8 v16',style:'fill:none;stroke:var(--ink);stroke-width:2'},lines);
+    }
+  });
+  lastVals=newVals;
+  S.counts=counts;
+}
+function bindChip(g,key){
+  g.setAttribute('data-k',key);
+  g.addEventListener('click',function(){S.sel=key; renderStageSelOnly(); renderDetail();});
+  g.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault(); S.sel=key; renderStageSelOnly(); renderDetail(); document.getElementById('detail').scrollIntoView({behavior:'smooth',block:'nearest'});} });
+}
+function renderStageSelOnly(){
+  // 선택 표시만 갱신: 바뀜 표시를 지우지 않게 칩 클래스만 바꾼다
+  var gs=document.querySelectorAll('#stage .chip');
+  gs.forEach(function(g){g.classList.remove('sel');});
+  // aria-label 앞부분이 라벨이므로 키로 찾는 대신 data 속성 사용
+  document.querySelectorAll('#stage .chip[data-k="'+S.sel+'"]').forEach(function(g){g.classList.add('sel');});
+}
+
+var SPAWN_NOTE={
+  fork:'포크는 메인 대화와 시스템 프롬프트, 도구, 모델을 그대로 복사해서 띄운다. 작업이 끝나면 결과 요약만 메인으로 돌아온다.',
+  subagent:'서브에이전트는 빈 대화로 시작한다. CLAUDE.md 와 rules 는 메인 세션과 같은 범위를 다시 읽는다. auto memory, 출력 스타일, 메인 대화는 전달되지 않는다. 권한 모드는 부모가 bypassPermissions, acceptEdits, auto 중 하나일 때만 전달된다. 스킬은 호출할 수 있지만, 부모가 이미 불러온 스킬의 내용은 모른다. 중첩은 3단계, 동시 실행은 20개까지이다.',
+  explore:'나머지 항목은 일반 서브에이전트와 같다. 빈 대화로 시작하고, auto memory 와 출력 스타일은 전달되지 않는다.',
+  teammate:'팀원은 독립된 세션으로 실행된다. CLAUDE.md, MCP 서버, 스킬을 시작 폴더 기준으로 새로 읽는다. 리드의 대화는 받지 않고 스폰 프롬프트(띄울 때 준 지시문)만 받는다. 권한 모드는 리드의 것을 받으며, dontAsk 만 예외이다. 팀 안에서 다시 팀을 만들 수는 없다.',
+  headless:'headless 는 claude -p 명령으로 새 프로세스를 띄우는 방식이다. 같은 폴더에서 실행하면 같은 설정 파일을 읽지만 대화는 없다. 권한 모드는 --permission-mode 인자로 정한다.'
+};
+function renderSummary(){
+  var box=document.getElementById('summary'); var sp=S.spawn, c=S.counts||{};
+  var note=SPAWN_NOTE[sp]||(D.spawn_notes||{})[sp==='explore'?'subagent':sp]||'';
+  if(sp==='main'){
+    box.innerHTML='<span>메인 세션은 시작할 때 디스크의 파일을 읽는다. 가는 회색 선은 시작할 때 읽은 파일을 가리킨다.</span><span class="note">띄우는 방식을 고르면 오른쪽에 새 세션이 받는 내용이 표시된다.</span>'; return;
+  }
+  var parts=[['carry','부모 세션에서 그대로 받음'],['reload','파일에서 새로 읽음'],['cond','조건에 따라 다름'],['cut','전달되지 않음'],['conflict','문서와 관찰이 다름']].filter(function(p){return c[p[0]];}).map(function(p){return '<span>'+p[1]+' <b class="num">'+c[p[0]]+'</b></span>';});
+  var none = !c.cut && !c.reload && !c.conflict;
+  var extra = sp==='explore' ? '내장 Explore·Plan 에이전트는 서브에이전트 규칙을 따르지만 CLAUDE.md 와 rules 는 읽지 않는다. ' : '';
+  if(S.multi) extra += '워커 '+S.multi+'개가 각각 이 구성으로 실행된다. 각 워커는 메인 대화 없이 시작한다. 훅 '+locStats(L()).hooks.length+'개는 세션 '+S.multi+'개 모두에서 실행된다. 동시에 실행할 수 있는 서브에이전트는 20개, 중첩은 3단계까지이다. ';
+  box.innerHTML=parts.join('')+'<span class="note">'+(none?'<b>이 방식에서는 모든 항목을 부모 세션에서 그대로 받는다.</b> 전달되지 않거나 파일에서 새로 읽는 항목은 없다. ':'')+esc(extra)+esc(note)+' '+tagHtml(S.multi?'추론':'문서')+'</span>';
+}
+
+function renderLegend(){
+  var box=document.getElementById('legend');
+  function sv(w,h,draw){var s=el('svg',{width:w,height:h,viewBox:'0 0 '+w+' '+h,'aria-hidden':'true'}); draw(s); return s;}
+  var items=[
+    ['디스크에 저장된 파일이다. 새 세션이 다시 읽을 수 있다.', function(s){chipShape(s,2,4,48,20,'disk','solid');}],
+    ['세션 안에만 있는 값이다. 대화, 현재 권한 모드, 현재 모델이 여기에 속한다.', function(s){chipShape(s,2,4,48,20,'session','solid');}],
+    ['부모 세션에서 그대로 받는다. 선이 디스크 열 위를 지나간다.', function(s){el('path',{d:'M2,18 C14,18 14,6 26,6 C38,6 38,18 50,18','class':'ln','marker-end':'url(#lg-arr)'},s);}],
+    ['디스크의 파일에서 새로 읽는다.', function(s){el('rect',{x:0,y:4,width:14,height:18,style:'fill:var(--chip);stroke:var(--ink)'},s); el('path',{d:'M14,13 H50','class':'ln','marker-end':'url(#lg-arr)'},s);}],
+    ['전달되지 않는다. 선이 중간에서 멈추고, 칸은 흐린 점선으로 표시된다.', function(s){el('path',{d:'M2,13 h26 m0,-8 v16',style:'fill:none;stroke:var(--ink);stroke-width:2'},s); el('rect',{x:34,y:4,width:18,height:18,rx:2,style:'fill:none;stroke:var(--ink-3);stroke-dasharray:3 2'},s);}],
+    ['조건에 따라 다르다. 점선과 빗금으로 표시한다.', function(s){el('path',{d:'M2,13 H30','class':'ln dash'},s); chipShape(s,32,4,20,18,'disk','hatch');}],
+    ['공식 문서의 설명과 실제 관찰 결과가 다르다.', function(s){chipShape(s,2,4,48,20,'disk','split');}],
+    ['선택한 케이스에서 살펴볼 줄이다.', function(s){el('rect',{x:0,y:4,width:52,height:18,style:'fill:var(--accent);opacity:.18'},s); el('rect',{x:0,y:4,width:4,height:18,style:'fill:var(--accent)'},s);}],
+    ['안쪽 테두리일수록 모델에 가깝다. 가장 바깥 테두리는 코드가 강제하는 설정이다.', function(s){[0,1,2].forEach(function(d){el('rect',{x:2+d*7,y:2+d*4,width:48-d*14,height:22-d*8,style:'fill:var(--plate-'+(d*2)+');stroke:var(--ink-3)'},s);});}]
+  ];
+  box.innerHTML='';
+  var hid=el('svg',{width:0,height:0,'aria-hidden':'true',style:'position:absolute'}); var defs=el('defs',null,hid);
+  var m=el('marker',{id:'lg-arr',viewBox:'0 0 10 10',refX:9,refY:5,markerWidth:6,markerHeight:6,orient:'auto'},defs); el('path',{d:'M0,0 L10,5 L0,10 z',style:'fill:var(--ink)'},m);
+  box.appendChild(hid);
+  items.forEach(function(it){
+    var d=document.createElement('div'); d.className='item';
+    var s=sv(54,26,function(s){it[1](s);});
+    d.appendChild(s); var t=document.createElement('span'); t.textContent=it[0]; d.appendChild(t); box.appendChild(d);
+  });
+}
+
+function renderDetail(){
+  var box=document.getElementById('detail');
+  var row=ROWS.concat(Object.keys(EXTRA_ROWS).map(function(k){return EXTRA_ROWS[k];})).filter(function(r){return r.key===S.sel;})[0];
+  if(!row){box.innerHTML='<p class="muted">조립도의 항목을 누르면 여기에 출처와 근거가 표시된다.</p>'; return;}
+  var loc=L(), v=rowVals(row,loc), s=locStats(loc);
+  var ring=RINGS.filter(function(R){return R.id===row.ring;})[0];
+  var src=[];
+  if(row.key==='claude_md') s.md.forEach(function(x){src.push(x.path+' · '+x.lines+'줄 · '+x.scope+' · '+(x.load==='on-read'?'그 폴더의 파일을 읽을 때 읽음':'시작할 때 읽음'));});
+  else if(row.key==='auto_memory') src.push((s.memo.dir||'')+' · 파일 '+s.mem+'개, 목록 '+(s.memo.index_lines||0)+'줄, 기억 단위: '+(s.memo.keyed_by||''));
+  else if(row.key==='mcp') s.mcp.forEach(function(m){src.push(m.name+' · '+m.scope+' · '+m.source);});
+  else if(row.key==='hooks'){var by={}; s.hooks.forEach(function(h){var k=h.scope==='plugin'?h.source:'~/.claude/settings.json'; by[k]=(by[k]||0)+1;}); Object.keys(by).forEach(function(k){src.push(k+' · '+by[k]+'개');});}
+  else if(row.key==='skills_list'){src.push('사용자 '+s.skUser+'개, 플러그인 '+s.skPlug+'개, 프로젝트 '+s.skProj+'개'); var pj=s.skills.filter(function(x){return x.scope==='project';}).map(function(x){return x.name;}); if(pj.length) src.push('프로젝트: '+pj.join(', '));}
+  else if(row.key==='model'){src.push((s.model.value||'-')+' ('+(s.model.from||'-')+' 설정 파일)'); var other=s.agents.filter(function(a){var m=String(a.model||''); return m && !/^(opus|sonnet|haiku|fable|inherit)(\[[^\]]*\])?$/.test(m) && !/^claude-(opus|sonnet|haiku|fable)/.test(m);}); if(other.length) src.push('Claude 기본 모델 이름이 아닌 모델을 지정한 에이전트: '+other.map(function(a){return a.name;}).join(', '));}
+  else (v.disk||[]).forEach(function(x){src.push(x.t);});
+  var cells=SPAWNS.map(function(sp){
+    var st=stateOf(row,sp.id,loc);
+    var cls='s-'+st.k+(sp.id===S.spawn?' cur':'');
+    return '<div class="'+cls+'"><b>'+esc(sp.name)+'</b>'+esc(KIND_WORD[st.k])+(st.t&&st.k!=='self'?'<br><span class="faint">'+esc(st.t)+'</span>':'')+'</div>';
+  }).join('');
+  var ev=EVID[row.key]||[];
+  box.innerHTML=
+    '<div><h3>'+esc(row.label)+'</h3>'+
+    '<dl class="kv"><dt>저장 위치</dt><dd>'+(row.origin==='disk'?'디스크의 파일이다.':'세션 안에만 있다.'+(v.diskKind==='seed'?' 초기값만 설정 파일에서 가져온다.':''))+'</dd>'+
+    '<dt>겹</dt><dd>'+esc(ring.name)+'. '+esc(FORCE_TXT[row.ring])+'</dd>'+
+    '<dt>범위</dt><dd>'+esc(SCOPE_TXT[row.key]||'-')+'</dd>'+
+    '<dt>출처</dt><dd>'+src.map(function(x){return '<div class="mono" style="font-size:12px">'+esc(x)+'</div>';}).join('')+'</dd>'+
+    '<dt>시작 폴더</dt><dd>'+esc(loc.cwd)+'</dd></dl></div>'+
+    '<div><h3 style="font-size:14px">띄우는 방식별 전달 여부</h3><div class="spawnrow">'+cells+'</div>'+
+    '<ul class="evid">'+ev.map(function(e){return '<li>'+tagHtml(e[0])+' '+esc(e[1])+'</li>';}).join('')+'</ul>'+
+    '<p class="faint" style="font-size:12px;margin-top:8px">전달 규칙의 출처는 '+esc((D.meta||{}).spawn_rules_source||'')+' 이다. Explore·Plan 칸은 서브에이전트 규칙에서 CLAUDE.md 와 rules 만 "전달되지 않음"으로 바꾸어 만들었다.</p></div>';
+}
+
+/* ---------- 우선순위 ---------- */
+function renderPrio(){
+  var loc=L(), s=locStats(loc);
+  var cols=[['managed','managed'],['cli','CLI 인자'],['local','local'],['project','project'],['user','user']];
+  var only=D.locations.filter(function(l){var ly=(l.enforcement||{}).layers||[]; return ly.length===1;}).length;
+  var h='<table class="mx"><caption class="sr">시작 폴더별 집행 설정의 범위</caption><thead><tr><th>시작 폴더와 집행 설정의 범위</th>'+cols.map(function(c){return '<th>'+c[1]+'</th>';}).join('')+'<th>프로젝트 CLAUDE.md</th></tr></thead><tbody>';
+  D.locations.forEach(function(l,i){
+    var ly=(l.enforcement||{}).layers||[]; var proj=((l.context||{}).claude_md||[]).filter(function(x){return x.scope==='project';});
+    h+='<tr'+(i===S.loc?' style="background:var(--accent-tint)"':'')+'><td>'+esc(short(l.cwd))+'</td>'+cols.map(function(c){
+      if(c[0]==='cli') return '<td><span class="cell-run" title="실행할 때 넘기는 인자이므로 파일에서 추출되지 않는다"></span></td>';
+      return '<td>'+(ly.indexOf(c[0])>=0?'<span class="cell-on" aria-label="있음"></span>':'<span class="cell-off" aria-label="없음"></span>')+'</td>';
+    }).join('')+'<td class="num">'+(proj.length?sum(proj,function(x){return x.lines;})+'줄':'-')+'</td></tr>';
+  });
+  h+='</tbody></table><p style="margin-top:8px;font-size:14px">'+(only===D.locations.length?'<b>'+D.locations.length+'곳 모두 집행 설정이 user 범위 한 곳에만 있다.</b> 그래서 위 범위의 값이 아래 범위의 값을 대신하거나 deny 가 우선하는 상황이 생기지 않는다. 이 데이터에서 우선순위가 실제로 문제가 되는 곳은 CLAUDE.md 를 이어 붙이는 부분뿐이다. 따라서 어느 규칙이 우선하는지보다, 그 규칙이 새 에이전트에 전달되는지를 먼저 확인해야 한다.':'설정 범위가 둘 이상인 폴더가 있다. 아래 다섯 방식이 모두 실제로 적용된다.')+' <span class="faint" style="font-size:12.5px">빗금 칸은 CLI 인자이다. 파일에 없으므로 추출되지 않는다.</span></p>';
+  document.getElementById('nocontest').innerHTML=h;
+
+  var five=document.getElementById('five'); five.innerHTML='';
+  function card(title,key,lead,body,res){var d=document.createElement('div'); d.className='way'; d.innerHTML='<h3>'+esc(title)+' <span class="k">'+esc(key)+'</span></h3><p class="lead">'+lead+'</p>'; if(typeof body==='string'){var b=document.createElement('div'); b.innerHTML=body; d.appendChild(b);} else d.appendChild(body); if(res){var r=document.createElement('p'); r.className='res'; r.innerHTML=res; d.appendChild(r);} five.appendChild(d);}
+
+  // 1 덮어쓰기: 포개진 종이
+  var ly=s.layers, W=330, Hh=196;
+  var sv=el('svg',{viewBox:'0 0 '+W+' '+Hh,role:'img','aria-label':'위 범위의 종이가 아래 범위의 종이를 가리는 그림'});
+  var order=[['user','user'],['project','project'],['local','local'],['cli','CLI 인자'],['managed','managed']];
+  order.forEach(function(o,i){
+    var x=8+i*22, y=Hh-62-i*26, w=210, hh=56, has=ly.indexOf(o[0])>=0;
+    el('rect',{x:x,y:y,width:w,height:hh,style:has?'fill:var(--chip);stroke:var(--ink);stroke-width:1.4':'fill:none;stroke:var(--ink-3);stroke-dasharray:4 3'},sv);
+    if(has){
+      txt(sv,x+8,y+hh-24,o[1],'t-lab outline-txt');
+      txt(sv,x+8,y+hh-9,fit('defaultMode '+(s.mode.value||'-')+' · model '+(s.model.value||'-'),11,w-14),'t-val outline-txt');
+    } else txt(sv,x+8,y+15,o[1]+' (없음)','t-sm t-faint outline-txt');
+  });
+  txt(sv,W-4,14,'맨 위 범위의 값을 씀','t-sm','end');
+  card('위 범위의 값을 씀','model, defaultMode, outputStyle','같은 설정이 여러 범위에 있으면 가장 위 범위의 값을 쓴다. 위에서부터 managed, CLI 인자, local, project, user 순서이다. '+tagHtml('문서'),sv,
+    '현재 적용되는 값은 <code>defaultMode '+esc(s.mode.value||'-')+'</code> 와 <code>model '+esc(s.model.value||'-')+'</code> 이다. 이 값을 대신할 위 범위가 없으므로 '+esc(ly.join(', ')||'-')+' 설정이 그대로 쓰인다.');
+
+  // 2 합쳐짐
+  var permBy=(loc.enforcement.perm||[]);
+  var bins=['deny','ask','allow'].map(function(k){return '<div class="bin"><span class="c">'+s.perm[k]+'</span><span class="w">'+k+(function(){var c=permBy.filter(function(p){return p[k];}).map(function(p){return p.scope+' '+p[k];}); return c.length?' · '+c.join(', '):'';})()+'</span></div>';}).join('');
+  card('모두 합치고 deny 를 먼저 적용','permissions.allow, ask, deny','모든 범위의 권한 규칙이 하나의 목록으로 합쳐진다. 도구 호출은 왼쪽 단계부터 차례로 검사된다. 먼저 해당하는 단계의 결정이 적용된다. '+tagHtml('문서'),
+    '<div class="order"><span>훅</span><i>→</i><span>deny</span><i>→</i><span>ask</span><i>→</i><span>권한 모드</span><i>→</i><span>allow</span><i>→</i><span>canUseTool</span></div><div class="bins">'+bins+'</div>',
+    'allow 규칙은 '+s.perm.allow+'개이다'+'. deny 규칙이 없으므로 이 목록 때문에 막히는 호출은 없다. 실제로 호출을 막는 일은 앞 단계의 훅과 권한 모드 '+esc(s.mode.value||'')+' 가 맡는다.');
+
+  // 3 전부 실행
+  var ev={}; s.hooks.forEach(function(hk){(ev[hk.event]=ev[hk.event]||[]).push(hk);});
+  var evs=Object.keys(ev).sort(function(a,b){return ev[b].length-ev[a].length||a.localeCompare(b);});
+  var REACH={PreToolUse:['서브에이전트의 도구 호출 때도 실행','문서'],PostToolUse:['서브에이전트의 도구 호출 때도 실행','문서'],UserPromptSubmit:['사용자 입력 때만 실행, 워커에서는 실행 안 됨','추론'],SubagentStop:['서브에이전트가 끝날 때마다 실행','문서']};
+  var hk='<div class="hk">'+evs.map(function(e){
+    var groups={}; ev[e].forEach(function(x){var k=x.scope==='plugin'?x.source.split('@')[0]:'사용자'; (groups[k]=groups[k]||[]).push(x);});
+    var gs=Object.keys(groups).map(function(k){return '<span class="grp" title="'+esc(groups[k].map(function(x){return x.name;}).join(', '))+'">'+groups[k].map(function(){return '<span class="sq'+(k==='사용자'?' u':'')+'"></span>';}).join('')+'<span class="src">'+esc(k)+'</span></span>';}).join('');
+    var rc=REACH[e]?'<small>'+esc(REACH[e][0])+' '+tagHtml(REACH[e][1])+'</small>':'';
+    return '<div class="ev">'+esc(e)+' <span class="num">'+ev[e].length+'</span>'+rc+'</div><div class="sqs">'+gs+'</div>';
+  }).join('')+'</div>';
+  var srcN={}; s.hooks.forEach(function(x){srcN[x.scope==='plugin'?x.source:'user']=1;});
+  card('모두 실행','hooks','같은 이벤트에 여러 출처의 훅이 있으면 모두 실행된다. 실행 순서는 보장되지 않는다. 네모 하나가 훅 하나이다. 채운 네모는 사용자 설정의 훅이고, 빈 네모는 플러그인의 훅이다. '+tagHtml('문서')+' '+tagHtml('데이터'),hk,
+    '훅은 모두 <b class="num">'+s.hooks.length+'</b>개이고, 출처는 '+Object.keys(srcN).length+'곳이다. 플러그인을 설치하면 그 플러그인의 훅이 모든 세션과 모든 새 에이전트에 바로 적용된다.');
+
+  // 4 이어붙이기
+  var cc='<div class="concat">';
+  s.launch.forEach(function(x,i){
+    if(i>0) cc+='<div class="seam">두 파일 사이에는 우선순위가 없다. 내용이 충돌하면 모델이 판단한다.</div>';
+    cc+='<div class="cblk" style="min-height:'+Math.max(34,Math.round(x.lines*1.5))+'px"><span class="p">'+esc(x.path)+'</span><span class="num">'+x.lines+'줄 · '+esc(x.scope)+'</span></div>';
+  });
+  s.md.filter(function(x){return x.load==='on-read';}).forEach(function(x){
+    cc+='<div class="seam">아래 파일은 나중에 추가된다.</div><div class="cblk late"><span class="p">'+esc(x.path)+'</span><span class="num">'+x.lines+'줄, 그 폴더의 파일을 읽을 때 추가</span></div>';
+  });
+  cc+='</div>';
+  card('이어 붙임','CLAUDE.md, .claude/rules','위 폴더의 파일부터 시작 폴더의 파일까지 순서대로 이어 붙인다. 띠의 높이는 줄 수에 비례한다. 이어 붙인 글은 시스템 프롬프트 다음에 사용자 메시지로 전달된다. '+tagHtml('문서'),cc,
+    '시작할 때 읽는 분량은 <b class="num">'+s.mdLines+'</b>줄이다. '+(s.launch.length>1?'파일이 둘 이상이므로, 두 파일이 서로 다르게 지시하면 어느 쪽을 따를지 정해져 있지 않다.':'파일이 하나뿐이어서 파일끼리 충돌할 일은 없다.')+' CLAUDE.md 에 "절대 하지 마"라고 적어도 실제로 막히지는 않는다. 막으려면 훅이나 deny 규칙을 써야 한다.');
+
+  // 5 하나만 선택
+  var scopes=[['managed','managed'],['cli','--agents'],['project','project'],['user','user'],['plugin','plugin']];
+  var cnt={}; s.agents.forEach(function(a){cnt[a.scope]=(cnt[a.scope]||0)+1;});
+  var names={}; s.agents.forEach(function(a){var n=a.name.split(':').pop(); (names[n]=names[n]||[]).push(a.scope);});
+  var dup=Object.keys(names).filter(function(n){return names[n].length>1;});
+  var shadow=s.agents.filter(function(a){return a.shadowed_by;}).length;
+  var mcpN={}; s.mcp.forEach(function(m){(mcpN[m.name]=mcpN[m.name]||[]).push(m.scope);});
+  var mdup=Object.keys(mcpN).filter(function(n){return mcpN[n].length>1;});
+  var rail='<div class="rail">'+scopes.map(function(sc){var n=cnt[sc[0]]||0; return '<div class="slot'+(n?'':' empty')+'"><span class="c">'+n+'</span><span class="s">'+sc[1]+'</span></div>';}).join('')+'</div><div class="gate">같은 이름이 있으면 가장 왼쪽 범위의 정의를 쓴다.</div>';
+  card('하나만 선택','같은 이름의 에이전트 정의','같은 이름의 에이전트 정의가 여러 범위에 있으면 하나만 쓰인다. 칸의 숫자는 이 폴더에서 보이는 에이전트 수이다. '+tagHtml('문서'),rail,
+    '이름이 겹치는 에이전트는 <b class="num">'+(dup.length+shadow)+'</b>건이다'+(dup.length?'('+esc(dup.join(', '))+')':'')+'. '+(mdup.length?'MCP 서버 중에서는 <code>'+esc(mdup.join(', '))+'</code> 가 '+esc(mcpN[mdup[0]].join(', '))+' 두 범위에 있다. 이때 어느 쪽을 쓰는지는 근거표에 없다 '+tagHtml('추론')+'.':'MCP 서버 이름도 겹치지 않는다.'));
+}
+
+/* ---------- 암묵지 ---------- */
+var TACIT=[
+  ['T1','"규칙"이라는 말은 두 가지를 함께 가리킨다. 하나는 CLAUDE.md 같은 지시문이고, 다른 하나는 settings 와 훅 같은 강제 설정이다. CLAUDE.md 에 "절대 하지 마"라고 적어도 그 동작이 막히지는 않는다. 막으려면 PreToolUse 훅이나 deny 규칙이 필요하다.',['문서'],null],
+  ['T2','하위 에이전트도 지켜야 하는 규칙은 파일에 적어야 한다. 대화 중에 합의한 내용은 새 에이전트에 전달되지 않는다. 전달되지 않았다는 표시도 남지 않는다. Explore·Plan 에이전트는 CLAUDE.md 도 읽지 않는다.',['문서','추론'],1],
+  ['T3','팀 기능과 auto 모드를 함께 쓰면, 서브에이전트를 요청해도 팀원이 실행될 수 있다. 이때 팀원은 맥락을 파일에서 새로 읽는다. auto 모드는 모든 에이전트에 전달된다. 결국 같은 호출이라도 팀 기능 설정 하나에 따라 받는 내용이 달라진다.',['문서','데이터'],4],
+  ['T4','git 저장소가 아닌 폴더에서는 하위 폴더에서 시작할 때마다 auto memory 가 새로 만들어진다. 기억을 한곳에 모으려면 폴더를 git 저장소로 만들거나 항상 같은 폴더에서 시작해야 한다.',['관찰','문서'],2],
+  ['T5','하위 폴더의 .claude/agents 에 있는 정의는 그 폴더에서 시작해야 에이전트로 등록된다. 위 폴더에서 시작하면 정의 파일은 지시문으로만 읽힌다. 이 경우 도구 제한과 모델 지정은 적용되지 않는다.',['관찰'],5],
+  ['T6','훅이 새 에이전트에 전달되더라도, 실행 여부는 이벤트마다 다르다. 도구 호출 이벤트의 훅은 서브에이전트에서도 실행된다. 사용자 입력 이벤트(UserPromptSubmit)의 훅이 넣어 주던 맥락은 서브에이전트에 전달되지 않는다. 예를 들어 과거 대화를 찾아 넣어 주는 훅이 여기에 해당한다.',['문서','추론'],7],
+  ['T7','같은 이벤트에 여러 출처의 훅이 있으면 모두 실행된다. 실행 순서는 보장되지 않는다. Stop 처럼 종료를 막을 수 있는 이벤트에 훅이 여러 개 쌓이면, 어느 훅 때문에 멈췄는지 알기 어렵다.',['문서','추론'],null],
+  ['T8','설치된 도구 목록과 실제 실행 중에 쓸 수 있는 도구는 다를 수 있다. MCP 서버는 연결에 실패하면 알림 없이 빠진다.',['관찰'],3],
+  ['T9','모델 지정은 하네스 바깥의 프록시에서 다시 바뀔 수 있다. 프록시를 거치는 에이전트는 Claude Code 의 에이전트 정의를 쓰지만 실제로는 다른 회사의 모델로 실행될 수 있다. 따라서 하네스 안의 모델을 항상 Claude 라고 설명하면 틀린다.',['관찰'],null],
+  ['T10','전역 CLAUDE.md 에 적은 규칙은 일반 워커에게도 전달된다. 그러나 Explore·Plan 이나 omitClaudeMd 를 둔 에이전트에는 전달되지 않는다. 반드시 지켜야 하는 규칙은 스킬이나 에이전트 정의 파일에도 함께 적어 두는 편이 안전하다.',['데이터','문서','추론'],1],
+  ['T11','공식 문서를 요약한 지식은 틀릴 수 있다. 이 화면의 근거표는 처음에 "서브에이전트는 CLAUDE.md 를 읽지 않는다"고 잘못 적었다. 실행 중에 다른 결과를 관찰했고, 원문을 다시 확인해서 고쳤다.',['관찰','문서'],null]
+];
+function renderTacit(){
+  var box=document.getElementById('tacit'); box.innerHTML='';
+  TACIT.forEach(function(t){
+    var d=document.createElement('div'); d.className='tk';
+    var body=t[1];
+    if(t[0]==='T7'){var ev={},sr={}; locStats(L()).hooks.forEach(function(h){ev[h.event]=(ev[h.event]||0)+1; (sr[h.event]=sr[h.event]||{})[h.scope==='plugin'?h.source:'user']=1;}); var top=Object.keys(ev).sort(function(a,b){return ev[b]-ev[a];})[0]; if(top) body+=' 이 데이터의 '+short(L().cwd)+' 폴더에서는 '+top+' 에 '+Object.keys(sr[top]).length+'곳에서 온 훅 '+ev[top]+'개가 있다.';}
+    d.innerHTML='<b>'+t[0]+'</b><p>'+esc(body)+'</p>';
+    var f=document.createElement('div'); f.className='foot'; f.innerHTML=t[2].map(tagHtml).join(' ');
+    if(t[3]){var c=caseById(t[3]); if(c && c.ok){var b=document.createElement('button'); b.type='button'; b.className='linkbtn'; b.style.fontSize='12.5px'; b.textContent='케이스 '+t[3]+' 보기'; b.addEventListener('click',function(){applyCase(t[3]);}); f.appendChild(b);}}
+    if(t[0]==='T11'){var b2=document.createElement('button'); b2.type='button'; b2.className='linkbtn'; b2.style.fontSize='12.5px'; b2.textContent='근거를 고친 기록 보기'; b2.addEventListener('click',function(){go('hist-sec');}); f.appendChild(b2);}
+    d.appendChild(f); box.appendChild(d);
+  });
+}
+
+/* ---------- 기록 ---------- */
+function renderHist(){
+  var box=document.getElementById('hist');
+  box.innerHTML=
+   '<div><h3 style="margin-bottom:10px">C1. 서브에이전트는 CLAUDE.md 를 받는가</h3><ol class="tl">'+
+   '<li><span class="when">2026-10-02 · 처음 작성</span><br>근거표에는 "서브에이전트는 기본적으로 CLAUDE.md 를 읽지 않는다(managed 제외)"라고 적혀 있었다. 추출 데이터에도 <code>spawn_rules.subagent.claude_md = cond</code> 로 적혀 있었다. 개념 모델은 이를 근거로 프로젝트 CLAUDE.md 가 서브에이전트에 전달되지 않는다고 썼다.</li>'+
+   '<li class="obs"><span class="when">2026-10-02 · 실행 중 관찰</span><br>개념 모델을 쓰던 서브에이전트는 자신의 첫 메시지에 전역 CLAUDE.md 전문이 들어 있는 것을 확인했다. 이 서브에이전트는 근거표와 관찰 결과가 다르다고 보고했다.</li>'+
+   '<li class="fix"><span class="when">2026-10-02 · 정정</span><br>원문을 다시 확인했다. Explore·Plan 과 omitClaudeMd 에만 해당하는 예외를 기본 동작으로 잘못 읽은 것이었다. 근거표와 추출 규칙을 <code>reload</code> 로 고쳤다. 명제 P4 와 케이스 1, 4, 7 도 다시 썼다.<div class="quote">"CLAUDE.md files: every level of the CLAUDE.md hierarchy the main conversation loads ... The built-in Explore and Plan agents skip this. A subagent whose definition sets omitClaudeMd loads only the managed policy files."</div></li>'+
+   '</ol><p style="font-size:14px;margin-top:6px">조립도의 서브에이전트 CLAUDE.md 줄은 정정한 뒤의 내용을 보여 준다. 이 기록은 T11 의 실제 사례이다.</p></div>'+
+   '<div class="open"><h3>아직 해결되지 않은 차이</h3>'+
+   '<div><b>C1. auto memory</b> '+tagHtml('문서')+' '+tagHtml('관찰')+'<br>공식 문서는 서브에이전트가 auto memory 를 읽지 않는다고 설명한다("isn\'t loaded"). 그러나 2026-10-02 작성자 환경의 서브에이전트는 MEMORY.md 목록을 받았다고 보고했다. 원인은 확인하지 못했다. 일반 에이전트에만 따로 전달되는 경로가 있거나, 버전 차이가 있거나, 시스템 알림 형태로 들어왔을 가능성이 있다 '+tagHtml('추론')+'. 조립도의 서브에이전트 칸에는 문서의 설명과 관찰 결과를 함께 표시했다.<div style="margin-top:6px"><button type="button" class="linkbtn" id="h-c1">조립도에서 보기</button></div></div>'+
+   '<div><b>C2. 모델이 정해지는 순서</b> '+tagHtml('관찰')+'<br>근거표에 따르면 서브에이전트의 모델은 호출 인자, 정의 파일, 환경변수, 부모의 순서로 정해진다. 그런데 프록시를 거쳐 다른 회사 모델로 실행되는 에이전트의 설명에는 "the model argument is ignored" 라고 적혀 있다. 이것은 하네스 규칙과의 충돌이라기보다, 하네스 바깥의 프록시가 모델을 다시 정하는 경우이다.</div></div>';
+  var b=document.getElementById('h-c1'); if(b) b.addEventListener('click',function(){var c=caseById(1); S.caseId=null; S.extras=[]; S.multi=0; S.focus=['auto_memory']; if(c&&c.li!=null) S.loc=c.li; S.spawn='subagent'; S.sel='auto_memory'; renderAll(); go('stage-sec');});
+}
+
+/* ---------- 질문 ---------- */
+var QS=[
+  ['처음 쓰는 사람',[
+    ['이 폴더에서 시작하면 지시 파일을 몇 줄 읽는가?','폴더 버튼에 적힌 CLAUDE.md 줄 수와 "이어 붙임" 띠에서 확인할 수 있다.',function(){S.sel='claude_md'; S.focus=['claude_md']; S.caseId=null; S.extras=[]; S.multi=0; S.spawn='main'; renderAll(); go('stage-sec');}],
+    ['다른 폴더에서 시작해도 지난 기억을 가져오는가?','git 저장소가 아니면 폴더마다 기억이 따로 저장된다. 케이스 2 에서 확인할 수 있다.',function(){applyCase(2);}],
+    ['CLAUDE.md 에 적은 금지 사항은 실제로 막히는가?','막히지 않는다. CLAUDE.md 는 지시문이고, 실제로 막는 것은 훅과 deny 규칙이다. T1 에서 확인할 수 있다.',function(){go('tacit-sec');}]
+  ]],
+  ['플러그인과 훅을 추가해 쓰는 사람',[
+    ['설치한 플러그인이 어느 이벤트에 훅을 몇 개 추가했는가?','"모두 실행" 카드의 네모 표에서 확인할 수 있다.',function(){go('five');}],
+    ['권한 모드는 어디에서 정해지고, 하위 에이전트에 전달되는가?','조립도의 권한 모드 줄과 케이스 4 에서 확인할 수 있다.',function(){applyCase(4);}],
+    ['같은 이름의 MCP 서버나 에이전트가 두 곳에 있으면 어느 것을 쓰는가?','"하나만 선택" 카드와 케이스 3 에서 확인할 수 있다.',function(){applyCase(3);}]
+  ]],
+  ['에이전트를 여러 개 띄워 쓰는 사람',[
+    ['띄우는 방식에 따라 무엇이 전달되고 무엇을 새로 읽는가?','조립도에서 띄우는 방식을 바꾸거나 항목을 눌러 확인할 수 있다.',function(){S.caseId=null; S.focus=[]; S.extras=[]; S.multi=0; S.spawn='subagent'; renderAll(); go('stage-sec');}],
+    ['워커에게 반드시 전할 규칙은 어디에 적어야 하는가?','파일에 적어야 한다. Explore·Plan 은 CLAUDE.md 도 읽지 않으므로 에이전트 정의 파일에도 적는다. 케이스 1 과 T10 에서 확인할 수 있다.',function(){applyCase(1);}],
+    ['팀 기능, auto 모드, 대규모 실행을 함께 쓰면 권한과 훅 실행 횟수는 어떻게 되는가?','케이스 4 와 케이스 7 에서 확인할 수 있다.',function(){applyCase(7);}]
+  ]]
+];
+function renderQs(){
+  var box=document.getElementById('qs'); box.innerHTML='';
+  QS.forEach(function(col){
+    var c=document.createElement('div'); c.className='qcol'; c.innerHTML='<h3>'+esc(col[0])+'</h3>';
+    col[1].forEach(function(q){
+      var d=document.createElement('div'); d.className='q';
+      var b=document.createElement('button'); b.type='button'; b.className='linkbtn'; b.style.textAlign='left'; b.textContent=q[0]; b.addEventListener('click',q[2]);
+      d.appendChild(b); var p=document.createElement('p'); p.textContent=q[1]; d.appendChild(p); c.appendChild(d);
+    });
+    box.appendChild(c);
+  });
+}
+
+/* ---------- 붙여넣기 ---------- */
+var KINDS=['carry','cut','reload','cond'];
+var RULE_KEYS=['history','claude_md','rules','auto_memory','output_style','skills','mcp','hooks','perm_rules','perm_mode','model'];
+function validate(j){
+  var e=[];
+  if(!j || typeof j!=='object' || Array.isArray(j)) return ['JSON 의 가장 바깥이 객체({ … })가 아니다.'];
+  if(!j.meta || typeof j.meta!=='object') e.push('meta 가 없다.'); else if(!j.meta.claude_code) e.push('meta.claude_code(Claude Code 버전)가 없다.');
+  if(!j.spawn_rules || typeof j.spawn_rules!=='object') e.push('spawn_rules 가 없다.');
+  else ['main','fork','subagent','teammate','headless'].forEach(function(sp){
+    var r=j.spawn_rules[sp]; if(!r){e.push('spawn_rules.'+sp+' 가 없다.'); return;}
+    var miss=RULE_KEYS.filter(function(k){return r[k]===undefined;}), badv=RULE_KEYS.filter(function(k){return r[k]!==undefined && KINDS.indexOf(r[k])<0;});
+    if(miss.length) e.push('spawn_rules.'+sp+' 에 다음 키가 없다: '+miss.join(', ')+'.');
+    if(badv.length) e.push('spawn_rules.'+sp+' 의 '+badv.join(', ')+' 값은 carry/cut/reload/cond 중 하나여야 한다.');
+  });
+  if(!Array.isArray(j.locations) || !j.locations.length) e.push('locations 가 비었거나 배열이 아니다.');
+  else j.locations.forEach(function(l,i){
+    var p='locations['+i+']';
+    if(!l || typeof l!=='object'){e.push(p+' 가 객체가 아니다.'); return;}
+    if(!l.cwd) e.push(p+'.cwd 가 없다.');
+    var c=l.context||{}; if(!l.context) e.push(p+'.context 가 없다.');
+    if(!Array.isArray(c.claude_md)) e.push(p+'.context.claude_md 가 배열이 아니다.');
+    if(!c.auto_memory || typeof c.auto_memory.files!=='number') e.push(p+'.context.auto_memory.files(숫자)가 없다.');
+    if(!Array.isArray(c.skills)) e.push(p+'.context.skills 가 배열이 아니다.');
+    if(!l.tools || !Array.isArray(l.tools.mcp)) e.push(p+'.tools.mcp 가 배열이 아니다.');
+    var f=l.enforcement||{}; if(!l.enforcement) e.push(p+'.enforcement 가 없다.');
+    if(!Array.isArray(f.hooks)) e.push(p+'.enforcement.hooks 가 배열이 아니다.');
+    if(!f.mode || typeof f.mode!=='object') e.push(p+'.enforcement.mode 가 없다.');
+    if(!f.model || typeof f.model!=='object') e.push(p+'.enforcement.model 이 없다.');
+    if(!Array.isArray(f.layers)) e.push(p+'.enforcement.layers 가 배열이 아니다.');
+  });
+  return e.slice(0,12);
+}
+function bindPaste(){
+  document.getElementById('paste-apply').addEventListener('click',function(){
+    var out=document.getElementById('paste-out'), raw=document.getElementById('paste-json').value.trim();
+    if(!raw){out.innerHTML='<ul class="errs"><li>붙여 넣은 내용이 없다.</li></ul>'; return;}
+    var j; try{ j=JSON.parse(raw); }catch(err){ out.innerHTML='<ul class="errs"><li>JSON 문법 오류가 있다. '+esc(err.message)+'</li></ul>'; return; }
+    var errs=validate(j);
+    if(errs.length){ out.innerHTML='<p class="muted" style="margin-top:8px;font-size:13.5px">화면은 바꾸지 않았다. 아래 항목을 고친 뒤 다시 시도한다.</p><ul class="errs">'+errs.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul>'; return; }
+    D=j; IS_ORIG=false; S.loc=0; S.caseId=null; S.extras=[]; S.focus=[]; S.multi=0; S.spawn='subagent'; S.sel='claude_md'; lastVals={};
+    renderAll();
+    out.innerHTML='<p class="ok">새 데이터로 다시 그렸다. 시작 폴더는 '+j.locations.length+'곳이고, Claude Code 버전은 '+esc(j.meta.claude_code)+' 이다. 데이터에 해당하는 상황이 없는 케이스는 비활성화했다.</p>';
+    go('stage-sec');
+  });
+  document.getElementById('paste-reset').addEventListener('click',function(){
+    D=ORIG; IS_ORIG=true; S.loc=0; lastVals={}; S.caseId=null; S.extras=[]; S.focus=[]; S.multi=0; buildCases(); var c1=caseById(1); if(c1&&c1.li!=null) S.loc=c1.li;
+    renderAll(); document.getElementById('paste-out').innerHTML='<p class="ok">원래 데이터로 돌아갔다.</p>';
+  });
+  document.getElementById('cmd-copy').addEventListener('click',function(){
+    var t=document.getElementById('cmd-text').textContent, st=document.getElementById('copy-status');
+    function fallback(){var r=document.createRange(); r.selectNodeContents(document.getElementById('cmd-text')); var s=window.getSelection(); s.removeAllRanges(); s.addRange(r); st.textContent='브라우저가 복사를 막아서 명령을 선택해 두었다. ⌘C 또는 Ctrl+C 로 복사한다.';}
+    try{ navigator.clipboard.writeText(t).then(function(){st.textContent='복사했다.';},fallback); }catch(e){ fallback(); }
+  });
+}
+
+/* ---------- 바닥글 ---------- */
+function renderFoot(){
+  var m=D.meta||{};
+  document.getElementById('foot').innerHTML=
+    '<span>전달 규칙의 출처: '+esc(m.spawn_rules_source||'-')+'</span>'+
+    '<span>근거 표식의 뜻은 다음과 같다. [문서]는 공식 문서, [데이터]는 추출 JSON, [관찰]은 이 화면을 만든 실행에서 직접 확인한 내용이다. <span class="tag inf">[추론]</span>은 앞의 세 가지로 직접 뒷받침되지 않는 내용이다.</span>'+
+    '<span>추출 '+esc(m.generated_at||'-')+' · Claude Code '+esc(m.claude_code||'-')+(IS_ORIG?' · 개념 모델 01_architect_model.md (2026-10-02 작성)':'')+'</span>';
+}
+
+/* ---------- 전체 ---------- */
+function renderAll(){
+  buildCases();
+  renderMeta(); renderControls(); renderCaseline(); renderHero(); renderStage(); renderSummary(); renderDetail(); renderPrio(); renderTacit(); renderHist(); renderFoot();
+}
+
+(function init(){
+  S.loc=0; buildCases();
+  renderProps(); renderLegend(); renderQs(); bindPaste();
+  applyCaseSilently(1);
+  renderAll();
+})();
+function applyCaseSilently(id){var c=caseById(id); if(!c||!c.ok) return; S.caseId=id; if(c.li!=null) S.loc=c.li; S.spawn=c.spawn; S.extras=(c.extras||[]).slice(); S.focus=c.focus.slice(); S.multi=c.multi||0; S.sel=c.focus[0];}
+})();
+</script>
