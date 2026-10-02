@@ -57,6 +57,72 @@ button{font:inherit;color:inherit}
 .tag.inf{font-style:italic;text-decoration:underline dotted;text-underline-offset:3px}
 .tag.obs{color:var(--ink)}
 
+
+/* maturity */
+.mat{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:16px 28px;align-items:start}
+@media (max-width:900px){.mat{grid-template-columns:minmax(0,1fr)}}
+.mat-fig{min-width:0}
+.mat-fig svg{width:100%;max-width:520px;height:auto;display:block;margin:0 auto}
+.mat-side{display:flex;flex-direction:column;gap:12px;min-width:0;font-size:14px}
+.mat-note{border-left:3px solid var(--ink);padding:2px 0 2px 12px;color:var(--ink-2);font-size:13.5px}
+.mat-legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 16px;font-size:12.5px}
+@media (max-width:520px){.mat-legend{grid-template-columns:minmax(0,1fr)}}
+.mat-legend div{display:flex;gap:8px;align-items:center}
+.mat-legend svg{flex:0 0 auto}
+.mq{border:0;padding:0;margin:0 0 8px;min-width:0}
+.mq legend{font-size:13.5px;padding:0;margin-bottom:3px}
+.mq label{display:inline-flex;gap:4px;align-items:center;margin:0 12px 2px 0;font-size:13px;cursor:pointer}
+.mat-axes{margin-top:14px;border-top:2px solid var(--ink)}
+.axrow{border-bottom:1px solid var(--rule)}
+.axrow summary{display:grid;grid-template-columns:minmax(110px,1.1fr) minmax(130px,1.4fr) 70px 90px minmax(0,2fr);gap:4px 12px;align-items:center;padding:8px 4px;cursor:pointer;font-size:14px;list-style:none}
+.axrow summary::-webkit-details-marker{display:none}
+.axrow summary::before{content:"";display:none}
+@media (max-width:720px){.axrow summary{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+.ax-name{font-weight:700}
+.ax-name::before{content:"+";display:inline-block;width:14px;font-family:var(--mono);color:var(--ink-3)}
+.axrow[open] .ax-name::before{content:"−"}
+.ax-need,.ax-range{font-size:12.5px;color:var(--ink-2)}
+.st{display:inline-block;font-size:11.5px;border:1px solid var(--rule);padding:0 6px;margin:1px 2px 1px 0;color:var(--ink-2)}
+.st-low{border-color:var(--accent);background:var(--accent);color:var(--on-accent)}
+.st-prov{border-style:dashed}
+.axbody{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px 28px;padding:6px 4px 16px 18px;font-size:13.5px}
+@media (max-width:760px){.axbody{grid-template-columns:minmax(0,1fr)}}
+.axbody h4{margin:10px 0 3px;font-size:13.5px}
+.axcol{min-width:0}
+.evid-row{display:flex;flex-wrap:wrap;gap:4px;align-items:center;margin-top:6px}
+.ev-chip{font-family:var(--mono);font-size:11.5px;border:1px solid var(--accent);color:var(--accent);background:transparent;padding:0 6px;cursor:pointer}
+.ev-chip.off{border-color:var(--rule);color:var(--ink-3);cursor:default}
+.folders{display:flex;flex-wrap:wrap;gap:4px}
+.folders .opt{padding:3px 8px}
+.folders .opt .n{font-size:12.5px}
+ul.cond,ul.cond ul{list-style:none;margin:4px 0;padding-left:14px}
+ul.cond{padding-left:0}
+ul.cond li{margin:2px 0}
+.cw{display:inline-block;min-width:76px;font-size:11.5px;border:1px solid var(--rule);text-align:center;margin-right:4px}
+.cond-yes > .cw{color:var(--ink)}
+.cond-no > .cw{border-color:var(--ink);background:var(--ink);color:var(--bg)}
+.cond-unk > .cw{border-style:dashed;color:var(--ink-2)}
+.flash{outline:2px solid var(--accent);outline-offset:4px}
+.probes{list-style:none;margin:4px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.probe{border-left:2px solid var(--rule);padding:2px 0 2px 10px;min-width:0}
+.ph{display:flex;gap:8px;align-items:baseline}
+.pt{min-width:0}
+.pm{display:flex;flex-wrap:wrap;gap:4px 8px;margin-top:3px;font-size:12px}
+.tagm{font-size:11.5px;border:1px solid var(--rule);padding:0 5px;color:var(--ink-2)}
+.pe{margin-top:4px;font-size:13px}
+.pn{margin-top:2px;font-size:12.5px;color:var(--ink-2)}
+.pr{flex:0 0 auto;display:inline-block;min-width:44px;text-align:center;font-size:11.5px;padding:0 6px;border:1px solid var(--ink)}
+.pr-yes{background:var(--surface)}
+.pr-no{background:var(--ink);color:var(--bg)}
+.pr-unk{border-style:dashed}
+.pr-wait{border:1px dashed var(--ink-3);color:var(--ink-3)}
+.pr-val{background:var(--surface)}
+.crit{margin-top:4px;font-size:12.5px;color:var(--ink-2)}
+.crit summary{cursor:pointer;color:var(--accent)}
+.crit p{margin-top:2px}
+.mq.ask{margin-top:6px;padding:6px 8px;border:1px dashed var(--ink-3)}
+
+
 /* header */
 .top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px 24px;align-items:end;border-bottom:1px solid var(--rule);padding-bottom:14px}
 .top .meta{font-family:var(--mono);font-size:12px;color:var(--ink-2);text-align:right}
@@ -258,6 +324,25 @@ footer{margin-top:48px;border-top:1px solid var(--rule);padding-top:12px;font-si
     </div>
     <div class="meta" id="meta"></div>
   </header>
+
+
+  <section class="block" id="mat-sec" aria-labelledby="mat-h" style="margin-top:22px">
+    <div class="sec-head">
+      <h2 id="mat-h">하네스 성숙도 자가진단</h2>
+      <p>여섯 분야마다 하네스가 어떤 상황까지 의도대로 작동하도록 설계되어 있는지를 레벨 1~5로 나타낸다. 레벨 1~4는 설정 데이터에서 자동으로 판정한다. 그다음 점검 기록이 레벨을 조정한다. 점검은 파일 읽기, 대화 기록 세기, 실제 시험으로 이루어진다. 점검 결과에 따라 레벨이 한 단계 내려가거나 레벨 5로 올라간다. 스크립트나 에이전트가 점검을 수행하고, 사람이 고르는 항목은 하나뿐이다.</p>
+    </div>
+    <div class="mat">
+      <div class="mat-fig" id="mat-hex"></div>
+      <div class="mat-side">
+        <p class="mat-note">높은 레벨이 항상 좋은 것은 아니다. 레벨은 대비해 둔 상황의 범위를 나타낼 뿐 점수가 아니다. 혼자 쓰고 하위 에이전트를 거의 띄우지 않는 사람에게 높은 레벨은 관리할 파일과 훅만 늘린다. 그래서 이 화면은 사용 방식에서 계산한 필요 레벨을 함께 그리고, 필요 레벨보다 낮은 축만 파란색으로 표시한다. 여섯 축의 합계나 평균은 계산하지 않는다. 육각형의 넓이에도 뜻이 없으므로 꼭짓점마다 따로 읽는다.</p>
+        <div class="mat-legend" id="mat-legend"></div>
+        <p id="mat-status" class="muted" style="font-size:13px" aria-live="polite"></p>
+        <div><h3 style="font-size:14px;margin-bottom:6px">사용 방식 점검</h3><p class="faint" style="font-size:12.5px;margin-bottom:6px">필요 레벨은 이 세 값으로 계산한다. 값은 설정과 대화 기록에서 추정한 것이다.</p><div id="mat-usage"></div></div>
+        <div id="mat-body"></div>
+      </div>
+    </div>
+    <div class="mat-axes" id="mat-axes"></div>
+  </section>
 
   <div class="hero">
     <div class="hero-fig" id="hero-fig" aria-label="다섯 겹 분해도"></div>
@@ -625,7 +710,7 @@ function renderProps(){
   ];
   var box=document.getElementById('props'); box.innerHTML='';
   P.forEach(function(p){
-    var d=document.createElement('div'); d.className='prop';
+    var d=document.createElement('div'); d.className='prop'; d.id='prop-'+p[0];
     d.innerHTML='<b>'+p[0]+'</b><p>'+esc(p[1])+(p[0]==='P5'?' '+tagHtml('추론'):'')+'</p>';
     var g=document.createElement('div'); g.className='go'; var b=document.createElement('button'); b.type='button'; b.className='linkbtn'; b.textContent=p[3]; b.addEventListener('click',p[2]); g.appendChild(b); d.appendChild(g); box.appendChild(d);
   });
@@ -1114,7 +1199,7 @@ var TACIT=[
 function renderTacit(){
   var box=document.getElementById('tacit'); box.innerHTML='';
   TACIT.forEach(function(t){
-    var d=document.createElement('div'); d.className='tk';
+    var d=document.createElement('div'); d.className='tk'; d.id='tk-'+t[0];
     var body=t[1];
     if(t[0]==='T7'){var ev={},sr={}; locStats(L()).hooks.forEach(function(h){ev[h.event]=(ev[h.event]||0)+1; (sr[h.event]=sr[h.event]||{})[h.scope==='plugin'?h.source:'user']=1;}); var top=Object.keys(ev).sort(function(a,b){return ev[b]-ev[a];})[0]; if(top) body+=' 이 데이터의 '+short(L().cwd)+' 폴더에서는 '+top+' 에 '+Object.keys(sr[top]).length+'곳에서 온 훅 '+ev[top]+'개가 있다.';}
     d.innerHTML='<b>'+t[0]+'</b><p>'+esc(body)+'</p>';
@@ -1235,15 +1320,459 @@ function renderFoot(){
     '<span>추출 '+esc(m.generated_at||'-')+' · Claude Code '+esc(m.claude_code||'-')+(IS_ORIG?' · 개념 모델 01_architect_model.md (2026-10-02 작성)':'')+'</span>';
 }
 
+/* ---------- 성숙도 자가진단 ---------- */
+// 채점표(scorecard)는 데이터에 들어 있다. 붙여 넣은 데이터에 없으면 원래 데이터의 것을 쓴다.
+// maturity 가 데이터에 없으면 아래 평가기가 harness-map.py 와 같은 규칙으로 직접 계산한다.
+// 점검 기록(probes)은 데이터에서 읽는다. 사람만 알 수 있는 항목(ask)만 화면에서 고르고, 그 값만 localStorage 에 둔다.
+var MKEY='harness-map.maturity.ask.v1';
+var MA={ask:{}, open:{}, pick:{}};
+try{ var saved=JSON.parse(localStorage.getItem(MKEY)||'null'); if(saved && saved.ask) MA.ask=saved.ask; }catch(e){}
+function maSave(){ try{ localStorage.setItem(MKEY, JSON.stringify({ask:MA.ask})); }catch(e){} }
+function SC(){ return D.scorecard || ORIG.scorecard; }
+
+// 식 파서: 지표 이름, 정수, 큰따옴표 문자열, 비교, +, and/or/not, 괄호만 허용한다.
+function exprTokens(src){
+  var re=/\s*(?:(\d+)|("(?:[^"\\]|\\.)*")|(==|!=|<=|>=|<|>|\+|\(|\))|([A-Za-z_][A-Za-z0-9_]*))/y, out=[], m, i=0;
+  src=String(src);
+  while(i<src.length){
+    if(/^\s*$/.test(src.slice(i))) break;
+    re.lastIndex=i; m=re.exec(src);
+    if(!m) throw new Error('채점식에 허용되지 않은 문법이 있다: '+src.slice(i,i+12));
+    i=re.lastIndex;
+    if(m[1]) out.push({t:'num', v:parseInt(m[1],10)});
+    else if(m[2]) out.push({t:'str', v:JSON.parse(m[2])});
+    else if(m[3]) out.push({t:'op', v:m[3]});
+    else if(m[4]==='and'||m[4]==='or'||m[4]==='not') out.push({t:'kw', v:m[4]});
+    else out.push({t:'name', v:m[4]});
+  }
+  return out;
+}
+function parseExpr(src){
+  var tk=exprTokens(src), p=0;
+  function peek(){return tk[p];}
+  function isOp(v){var x=tk[p]; return x && x.t==='op' && x.v===v;}
+  function isKw(v){var x=tk[p]; return x && x.t==='kw' && x.v===v;}
+  function pOr(){var n=[pAnd()]; while(isKw('or')){p++; n.push(pAnd());} return n.length>1?{k:'or', c:n}:n[0];}
+  function pAnd(){var n=[pNot()]; while(isKw('and')){p++; n.push(pNot());} return n.length>1?{k:'and', c:n}:n[0];}
+  function pNot(){ if(isKw('not')){p++; return {k:'not', c:[pNot()]};} return pCmp(); }
+  function pCmp(){
+    var a=pSum(), x=peek();
+    if(x && x.t==='op' && ['==','!=','<','<=','>','>='].indexOf(x.v)>=0){
+      p++; var b=pSum(), y=peek();
+      if(y && y.t==='op' && ['==','!=','<','<=','>','>='].indexOf(y.v)>=0) throw new Error('이어진 비교는 허용되지 않는다.');
+      return {k:'cmp', op:x.v, a:a, b:b};
+    }
+    return a;
+  }
+  function pSum(){var n=[pAtom()]; while(isOp('+')){p++; n.push(pAtom());} return n.length>1?{k:'add', c:n}:n[0];}
+  function pAtom(){
+    var x=tk[p++];
+    if(!x) throw new Error('채점식이 중간에 끝났다.');
+    if(x.t==='num') return {k:'num', v:x.v};
+    if(x.t==='str') return {k:'str', v:x.v};
+    if(x.t==='name') return {k:'name', v:x.v};
+    if(x.t==='op' && x.v==='('){var e=pOr(); if(!isOp(')')) throw new Error('괄호가 닫히지 않았다.'); p++; return e;}
+    throw new Error('채점식에 허용되지 않은 문법이 있다.');
+  }
+  var e=pOr(); if(p<tk.length) throw new Error('채점식 끝에 해석할 수 없는 부분이 있다.');
+  return e;
+}
+var PARSED={};
+function parsed(src){ return PARSED[src] || (PARSED[src]=parseExpr(src)); }
+// 세 값 논리: true / false / null(판정 불가)
+function evalNode(n, m){
+  switch(n.k){
+    case 'num': case 'str': return n.v;
+    case 'name': if(!(n.v in m)) throw new Error('채점표에 없는 지표: '+n.v); return m[n.v];
+    case 'add': var s=0; for(var i=0;i<n.c.length;i++){var v=evalNode(n.c[i],m); if(v===null||v===undefined) return null; s+=v;} return s;
+    case 'not': var w=evalNode(n.c[0],m); return w===null?null:!w;
+    case 'and': var vs=n.c.map(function(c){return evalNode(c,m);}); return vs.indexOf(false)>=0?false:(vs.indexOf(null)>=0?null:true);
+    case 'or': var us=n.c.map(function(c){return evalNode(c,m);}); return us.indexOf(true)>=0?true:(us.indexOf(null)>=0?null:false);
+    case 'cmp':
+      var a=evalNode(n.a,m), b=evalNode(n.b,m);
+      if(a===null||a===undefined||b===null||b===undefined) return null;
+      switch(n.op){case '==':return a===b; case '!=':return a!==b; case '<':return a<b; case '<=':return a<=b; case '>':return a>b; case '>=':return a>=b;}
+  }
+  throw new Error('채점식에 허용되지 않은 문법이 있다.');
+}
+function exprNames(src){ var out={}; (function walk(n){ if(n.k==='name') out[n.v]=1; ['a','b'].forEach(function(k){ if(n[k]) walk(n[k]); }); (n.c||[]).forEach(walk); })(parsed(src)); return Object.keys(out).sort(); }
+
+// harness-map.py 의 metrics_of 와 같은 지표. 데이터에 없는 필드는 null.
+function metricsOf(L){
+  var hs=SC().hook_sets||{}, POST=hs.POST||[];
+  var ctx=L.context||{}, enf=L.enforcement||{}, tl=L.tools||{};
+  var md=Array.isArray(ctx.claude_md)?ctx.claude_md:null;
+  var launch=md?md.filter(function(c){return c.load==='launch';}):null;
+  var agents=Array.isArray(L.agents)?L.agents:null;
+  var own=agents?agents.filter(function(a){return a.scope==='user'||a.scope==='project';}):null;
+  var hooks=Array.isArray(enf.hooks)?enf.hooks:null;
+  var mcp=Array.isArray(tl.mcp)?tl.mcp:null;
+  var perm=Array.isArray(enf.perm)?enf.perm:null;
+  var am=ctx.auto_memory||null;
+  function cnt(arr,f){return arr?arr.filter(f).length:null;}
+  function num(v){return (typeof v==='number')?v:null;}
+  var restricted=agents?agents.filter(function(a){return 'tools_restricted' in a;}).map(function(a){return a.tools_restricted;}):[];
+  var names=mcp?mcp.map(function(x){return x.name;}):null;
+  var uniq={}; (names||[]).forEach(function(n){uniq[n]=1;});
+  var models={}; (own||[]).forEach(function(a){ if(a.model!=null && a.model!=='inherit') models[a.model]=1; });
+  return {
+    claude_md_launch_lines: launch?sum(launch,function(c){return c.lines||0;}):null,
+    claude_md_scopes: launch?Object.keys(launch.reduce(function(o,c){o[c.scope]=1; return o;},{})).length:null,
+    rules_count: Array.isArray(ctx.rules)?ctx.rules.length:null,
+    own_skills: Array.isArray(ctx.skills)?cnt(ctx.skills,function(k){return k.scope==='user'||k.scope==='project';}):null,
+    memory_files: am?num(am.files):null,
+    memory_index_lines: am?num(am.index_lines):null,
+    in_git: L.git_root?1:0,
+    agent_memory: own?cnt(own,function(a){return !!a.has_memory;}):null,
+    mcp_count: names?names.length:null,
+    plugin_count: Array.isArray(L.plugins)?L.plugins.length:null,
+    folder_mcp: cnt(mcp,function(x){return x.scope==='local'||x.scope==='project';}),
+    mcp_name_dupes: names?names.length-Object.keys(uniq).length:null,
+    agents_tool_restricted: restricted.length?restricted.filter(function(r){return !!r;}).length:null,
+    mode: (enf.mode&&typeof enf.mode.value==='string')?enf.mode.value:null,
+    deny_total: perm?sum(perm,function(x){return x.deny||0;}):null,
+    ask_total: perm?sum(perm,function(x){return x.ask||0;}):null,
+    sandbox: ('sandbox' in enf)?(enf.sandbox?1:0):null,
+    pre_hooks_targeted: cnt(hooks,function(h){return h.event==='PreToolUse' && h.matcher!=='*' && h.matcher!=='';}),
+    post_hooks: cnt(hooks,function(h){return POST.indexOf(h.event)>=0;}),
+    posttooluse_hooks: cnt(hooks,function(h){return h.event==='PostToolUse';}),
+    stop_hooks: cnt(hooks,function(h){return h.event==='Stop';}),
+    subagentstop_hooks: cnt(hooks,function(h){return h.event==='SubagentStop';}),
+    own_agents: own?own.length:null,
+    own_agent_models: own?Object.keys(models).length:null,
+    boundary_explicit: cnt(own,function(a){return a.omitClaudeMd!=null || a.permissionMode!=null || a.skills!=null;}),
+    agents_shadowed: cnt(agents,function(a){return !!a.shadowed_by;}),
+    warn_teams_mode: Array.isArray(L.warnings)?(L.warnings.some(function(w){return w.id==='teams-inherit-mode';})?1:0):null,
+    claude_md_on_read: md?cnt(md,function(c){return c.load==='on-read';}):null
+  };
+}
+function lowerMedian(xs){ var s=xs.slice().sort(function(a,b){return a-b;}); return s.length?s[Math.floor((s.length-1)/2)]:1; }
+function scoreJS(){
+  var sc=SC(), cap=sc.auto_cap||4;
+  var per=D.locations.map(function(L){return {cwd:L.cwd, m:metricsOf(L)};});
+  return {spec_version:sc.version, aggregate:sc.aggregate, computed:'screen', axes:sc.axes.map(function(ax){
+    var used={}; ax.levels.forEach(function(lv){ if(lv.auto) exprNames(lv.auto).forEach(function(n){used[n]=1;}); });
+    var by=per.map(function(p){
+      var level=1, blocked=null, checks=[];
+      for(var i=1;i<cap;i++){
+        var lv=ax.levels[i], r=evalNode(parsed(lv.auto), p.m);
+        checks.push({level:lv.level, expr:lv.auto, result:r});
+        if(r===true){ level=lv.level; continue; }
+        if(r===null) blocked=lv.level;
+        break;
+      }
+      var mm={}; Object.keys(used).sort().forEach(function(k){mm[k]=p.m[k];});
+      return {cwd:p.cwd, level:level, blocked_by_unknown:blocked, metrics:mm, checks:checks};
+    });
+    var lv=by.map(function(b){return b.level;});
+    return {id:ax.id, auto_level:lowerMedian(lv), range:lv.length?[Math.min.apply(null,lv),Math.max.apply(null,lv)]:[1,1], by_location:by};
+  })};
+}
+var MAT=null, MAT_ERR='';
+function computeMaturity(){
+  MAT_ERR='';
+  if(!SC()){ MAT=null; MAT_ERR='채점표가 없어 성숙도를 계산할 수 없다.'; return; }
+  try{ MAT = D.maturity && Array.isArray(D.maturity.axes) ? D.maturity : scoreJS(); }
+  catch(e){ MAT=null; MAT_ERR='성숙도를 계산하지 못했다. '+e.message; }
+}
+function axisDef(id){ return SC().axes.filter(function(a){return a.id===id;})[0]; }
+function axisMat(id){ return MAT.axes.filter(function(a){return a.id===id;})[0]; }
+
+// 점검 기록: 데이터의 probes(와 usage)를 id 로 찾는다.
+function probeRecords(){
+  var out={};
+  function add(r){ if(r && r.id){ var o=out[r.id]; if(!o || String(r.at||'')>=String(o.at||'')) out[r.id]=r; } }
+  (Array.isArray(D.probes)?D.probes:[]).forEach(add);
+  var u=D.usage;
+  if(Array.isArray(u)) u.forEach(add);
+  else if(u && typeof u==='object') Object.keys(u).forEach(function(k){ var v=u[k]; add(typeof v==='object'&&v?Object.assign({id:k},v):{id:k, ran:true, value:v}); });
+  return out;
+}
+var REC={};
+function probeState(def){
+  var r=REC[def.id];
+  if(!r || r.ran===false) return {s:'notrun', r:r||null};
+  if(r.result==='yes'||r.result==='no') return {s:r.result, r:r};
+  return {s:'unknown', r:r};
+}
+// 최종 레벨: unlock4 → demote → promote5 → flag (명세 5장). 미점검과 판정 불가는 효과 없음.
+function finalOf(id){
+  var am=axisMat(id), sc=SC(), auto=am.auto_level, level=auto;
+  var defs=(sc.probes||[]).filter(function(p){return p.axis===id;});
+  var st=defs.map(function(d){return {d:d, x:probeState(d)};});
+  var eff={}, ran=0, notrun=0;
+  st.forEach(function(o){ if(o.x.s==='notrun') notrun++; else ran++; });
+  function has(effect,res){ return st.some(function(o){return o.d.effect===effect && o.x.s===res;}); }
+  var steps=[];
+  if(has('unlock4','yes')){ var nl=lowerMedian(am.by_location.map(function(b){return b.blocked_by_unknown===4?4:b.level;})); if(nl!==level) steps.push({e:'unlock4', from:level, to:nl}); level=nl; }
+  var beforeDemote=level;
+  if(has('demote','no') && level>=2){ steps.push({e:'demote', from:level, to:level-1}); level--; }
+  var beforePromote=level;
+  if(level===4 && has('promote5','yes') && !has('promote5','no')){ steps.push({e:'promote5', from:4, to:5}); level=5; }
+  st.forEach(function(o){ o.note=effectNote(o, {auto:auto, beforeDemote:beforeDemote, beforePromote:beforePromote, final:level, promoNo:has('promote5','no'), demoteDone:steps.some(function(x){return x.e==='demote';})}); });
+  var dataFinal=(typeof am.final_level==='number')?am.final_level:null;
+  return {level:dataFinal!=null?dataFinal:level, js:level, fromData:dataFinal!=null, probes:st, ran:ran, notrun:notrun, flag:st.some(function(o){return o.d.effect==='flag' && o.x.s!=='notrun';}), steps:steps};
+}
+function effectNote(o, c){
+  var e=o.d.effect, s=o.x.s;
+  if(s==='notrun') return '점검하지 않아 레벨에 반영하지 않는다.';
+  if(s==='unknown') return '판정할 수 없어 레벨에 반영하지 않는다.';
+  if(e==='flag') return '레벨은 바꾸지 않는다. 결과와 근거만 표시한다.';
+  if(e==='demote'){
+    if(s==='yes') return '문제가 없어 레벨을 바꾸지 않는다.';
+    if(c.beforeDemote<2) return '레벨이 이미 1이라 더 내리지 않는다.';
+    return '이 결과로 레벨을 '+c.beforeDemote+'에서 '+(c.beforeDemote-1)+'로 한 단계 내렸다. 같은 축에서 여러 점검이 아니오여도 한 단계만 내린다.';
+  }
+  if(e==='promote5'){
+    if(s==='no') return c.beforePromote===4?'이 결과가 있어 레벨 5로 올리지 않는다.':'레벨 5 판정을 막는 결과이지만, 지금 레벨이 4가 아니어서 영향이 없다.';
+    if(c.final===5) return '이 결과로 레벨 4에서 5가 되었다.';
+    if(c.beforePromote!==4) return '확인되었지만 지금 레벨이 '+c.beforePromote+'라서 레벨 5 조건(레벨 4)에 해당하지 않는다.';
+    if(c.promoNo) return '같은 축에 아니오 결과가 있어 레벨 5로 올리지 않았다.';
+  }
+  if(e==='unlock4') return s==='yes'?'데이터에 없던 레벨 4 조건을 이 점검으로 대신 확인했다.':'레벨 4 조건을 대신하지 못해 영향이 없다.';
+  return '레벨을 바꾸지 않는다.';
+}
+// 사용 방식 U1~U3: 점검이 추정한 값. U1 이 0 이면 사람에게 한 번 더 물을 수 있다(선택).
+function usageVal(uid){
+  var r=REC[uid]; var v=(r && r.ran!==false && typeof r.value==='number')?r.value:null;
+  if(uid==='U1' && v===0 && MA.ask.U1==='yes') v=1;
+  return v;
+}
+function needOf(id){
+  var nl=SC().need_level; if(!nl) return null;
+  var am=axisMat(id);
+  if(typeof am.need_level==='number' && MA.ask.U1==null) return am.need_level;
+  var expr=String((nl.add||{})[id]||''), ids=expr.match(/U\d+/g)||[];
+  var vals=ids.map(usageVal);
+  if(!ids.length || vals.some(function(v){return v==null;})) return null;
+  return Math.min(nl.max, nl.base + Math.max.apply(null, vals));
+}
+
+// 지표를 사람 말로
+var METRIC_KO={
+  claude_md_launch_lines:'시작할 때 읽히는 CLAUDE.md 줄 수', claude_md_scopes:'시작할 때 읽히는 CLAUDE.md 의 범위 수', rules_count:'.claude/rules 파일 수',
+  own_skills:'직접 만든 스킬 수(사용자·프로젝트)', memory_files:'auto memory 파일 수', memory_index_lines:'기억 목록(MEMORY.md) 줄 수', in_git:'git 저장소 안이면 1인 값',
+  agent_memory:'memory 항목을 둔 에이전트 정의 수', mcp_count:'MCP 서버 수', plugin_count:'플러그인 수', folder_mcp:'이 폴더에만 붙는 MCP 서버 수(local·project)',
+  mcp_name_dupes:'이름이 겹치는 MCP 서버 수', agents_tool_restricted:'도구를 좁힌 에이전트 정의 수', mode:'권한 모드 값', deny_total:'deny 규칙 수', ask_total:'ask 규칙 수',
+  sandbox:'샌드박스가 켜져 있으면 1인 값', pre_hooks_targeted:'특정 도구를 겨냥한 PreToolUse 훅 수', post_hooks:'행동 후·종료 시점 훅 수', posttooluse_hooks:'PostToolUse 훅 수',
+  stop_hooks:'Stop 훅 수', subagentstop_hooks:'SubagentStop 훅 수', own_agents:'직접 정의한 에이전트 수', own_agent_models:'직접 정의한 에이전트의 모델 종류 수',
+  boundary_explicit:'경계 설정(omitClaudeMd 등)을 적은 에이전트 정의 수', agents_shadowed:'이름이 가려진 에이전트 정의 수', warn_teams_mode:'팀 기능과 권한 모드가 겹치면 1인 값',
+  claude_md_on_read:'나중에 읽히는 하위 폴더 CLAUDE.md 수'
+};
+var OP_KO={'==':'이어야 한다','!=':'이 아니어야 한다','<':' 미만이어야 한다','<=':' 이하여야 한다','>':' 초과여야 한다','>=':' 이상이어야 한다'};
+function termKo(n){
+  if(n.k==='name') return METRIC_KO[n.v]||n.v;
+  if(n.k==='add') return n.c.map(termKo).join('와 ')+'의 합';
+  if(n.k==='num') return String(n.v);
+  if(n.k==='str') return n.v;
+  return '?';
+}
+function josa(w,a,b){ var c=String(w).charCodeAt(String(w).length-1); if(c>=0xAC00&&c<=0xD7A3) return (c-0xAC00)%28?a:b; return b; }
+function termVal(n,m){ var v; try{ v=evalNode(n,m); }catch(e){ v=null; } return v===null||v===undefined?'알 수 없음':String(v); }
+function stateWord(r){ return r===true?'충족':(r===false?'충족하지 않음':'알 수 없음'); }
+function explainNode(n, m){
+  var r; try{ r=evalNode(n,m); }catch(e){ r=null; }
+  var cls='cond-'+(r===true?'yes':(r===false?'no':'unk'));
+  if(n.k==='and'||n.k==='or'){
+    return '<li class="'+cls+'"><span class="cw">'+stateWord(r)+'</span> '+(n.k==='and'?'다음을 모두 만족해야 한다.':'다음 중 하나 이상을 만족해야 한다.')+'<ul>'+n.c.map(function(c){return explainNode(c,m);}).join('')+'</ul></li>';
+  }
+  if(n.k==='not') return '<li class="'+cls+'"><span class="cw">'+stateWord(r)+'</span> 다음에 해당하지 않아야 한다.<ul>'+explainNode(n.c[0],m)+'</ul></li>';
+  if(n.k==='cmp'){
+    var lhs=termKo(n.a), rhs=n.b.k==='num'||n.b.k==='str'?String(n.b.v):termKo(n.b);
+    var sj=lhs+josa(lhs,'이','가')+' ';
+    var want = n.op==='=='?sj+rhs+(n.b.k==='str'?' 이어야 한다.':'이어야 한다.')
+             : n.op==='!='?sj+rhs+(n.b.k==='str'?' 가 아니어야 한다.':'이 아니어야 한다.')
+             : sj+rhs+OP_KO[n.op]+'.';
+    return '<li class="'+cls+'"><span class="cw">'+stateWord(r)+'</span> '+esc(want)+' <span class="faint">지금 값은 '+esc(termVal(n.a,m))+'이다.</span></li>';
+  }
+  return '<li class="'+cls+'">'+esc(termKo(n))+'</li>';
+}
+
+// 근거 번호를 화면 위치로
+function evidLink(code){
+  var m;
+  if((m=/^P([1-5])$/.exec(code))) return {label:code, go:function(){var e=document.getElementById('prop-'+code); if(e){e.scrollIntoView({behavior:'smooth',block:'center'}); flash(e);}}};
+  if((m=/^T(\d+)$/.exec(code))) return {label:code, go:function(){var e=document.getElementById('tk-'+code); if(e){e.scrollIntoView({behavior:'smooth',block:'center'}); flash(e);}}};
+  if((m=/^case(\d)$/.exec(code))){ var id=+m[1], c=caseById(id); return {label:'케이스 '+id, go:(c&&c.ok)?function(){applyCase(id);}:null, off:!(c&&c.ok)}; }
+  if((m=/^facts§(\d)$/.exec(code))) return {label:'근거표 '+m[1]+'절', go:null};
+  if(code==='arch§5') return {label:'우선순위 정리', go:function(){go('prio-sec');}};
+  if(code==='arch§9') return {label:'근거를 고친 기록', go:function(){go('hist-sec');}};
+  if(code.indexOf('doc:')===0) return {label:code.slice(4), go:null};
+  return {label:code, go:null};
+}
+function flash(e){ e.classList.add('flash'); setTimeout(function(){e.classList.remove('flash');},1600); }
+function evidHtml(list, key){
+  return (list||[]).map(function(code,i){
+    var l=evidLink(code);
+    return l.go?'<button type="button" class="ev-chip" data-ev="'+esc(key)+'" data-i="'+i+'">'+esc(l.label)+'</button>'
+               :'<span class="ev-chip off" title="'+(l.off?'이 데이터에는 해당하는 케이스가 없다':'화면에 해당 절이 없다')+'">'+esc(l.label)+'</span>';
+  }).join('');
+}
+
+// 육각형
+function hexPoint(cx,cy,R,i,n,v){ var a=-Math.PI/2+i*2*Math.PI/n; return [cx+Math.cos(a)*R*v/5, cy+Math.sin(a)*R*v/5]; }
+function renderHex(rows){
+  var host=document.getElementById('mat-hex'); host.innerHTML='';
+  var W=480, H=440, cx=240, cy=222, R=150, n=rows.length;
+  var svg=el('svg',{viewBox:'0 0 '+W+' '+H, role:'img', 'aria-label':'여섯 축의 레벨을 꼭짓점마다 따로 표시한 육각형 그래프'},host);
+  function poly(vals){ return vals.map(function(v,i){var p=hexPoint(cx,cy,R,i,n,v); return p[0].toFixed(1)+','+p[1].toFixed(1);}).join(' '); }
+  for(var lv=1; lv<=5; lv++){
+    el('polygon',{points:poly(rows.map(function(){return lv;})), style:'fill:none;stroke:var(--rule);stroke-width:'+(lv===5?1.4:1)},svg);
+    var lp=hexPoint(cx,cy,R,0,n,lv); txt(svg,lp[0]+5,lp[1]+4,String(lv),'t-sm t-faint');
+  }
+  rows.forEach(function(r,i){ var p=hexPoint(cx,cy,R,i,n,5); el('line',{x1:cx,y1:cy,x2:p[0],y2:p[1],style:'stroke:var(--rule);stroke-width:1'},svg); });
+  // 폴더별 범위: 꼭짓점 방향의 굵은 막대
+  rows.forEach(function(r,i){
+    var a=hexPoint(cx,cy,R,i,n,r.range[0]), b=hexPoint(cx,cy,R,i,n,r.range[1]);
+    if(r.range[0]===r.range[1]){ var ang=-Math.PI/2+i*2*Math.PI/n, dx=Math.cos(ang+Math.PI/2)*7, dy=Math.sin(ang+Math.PI/2)*7; el('line',{x1:a[0]-dx,y1:a[1]-dy,x2:a[0]+dx,y2:a[1]+dy,style:'stroke:var(--ink-3);stroke-width:3;stroke-linecap:round'},svg); }
+    else el('line',{x1:a[0],y1:a[1],x2:b[0],y2:b[1],style:'stroke:var(--ink-3);stroke-width:9;stroke-linecap:round;opacity:.55'},svg);
+  });
+  // 자동 레벨: 옅은 면
+  el('polygon',{points:poly(rows.map(function(r){return r.auto;})), style:'fill:var(--ink-3);fill-opacity:.14;stroke:none'},svg);
+  // 필요 레벨: 점선
+  var showNeed=rows.every(function(r){return r.need!=null;});
+  if(showNeed) el('polygon',{points:poly(rows.map(function(r){return r.need;})), style:'fill:none;stroke:var(--ink-2);stroke-width:1.6;stroke-dasharray:6 4'},svg);
+  // 현재(최종) 레벨: 실선
+  el('polygon',{points:poly(rows.map(function(r){return r.fin;})), style:'fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linejoin:round'},svg);
+  rows.forEach(function(r,i){
+    var p=hexPoint(cx,cy,R,i,n,r.fin), low=r.need!=null && r.fin<r.need;
+    el('circle',{cx:p[0],cy:p[1],r:low?6.5:4,style:low?'fill:var(--accent);stroke:var(--surface);stroke-width:2':'fill:var(--ink)'},svg);
+  });
+  var anyAns=rows.some(function(r){return r.ran>0;});
+  if(!anyAns){ var tp=hexPoint(cx,cy,R,1,n,rows[1].fin); txt(svg,tp[0]+10,tp[1]-8,'잠정','t-sm'); }
+  // 축 이름
+  rows.forEach(function(r,i){
+    var p=hexPoint(cx,cy,R+34,i,n,5), x=p[0], anchor=Math.abs(x-cx)<8?'middle':(x>cx?'start':'end');
+    var low=r.need!=null && r.fin<r.need;
+    var y=p[1]+(i===0?-6:(Math.abs(x-cx)<8?14:0));
+    txt(svg,x,y,r.name,'t-ring'+(low?' t-accent':''),anchor);
+    txt(svg,x,y+15,'현재 '+r.fin+(r.need!=null?' · 필요 '+r.need:''),'t-sm'+(low?' t-accent':''),anchor);
+    if(r.notrun) txt(svg,x,y+29,'미점검 '+r.notrun,'t-sm t-faint',anchor);
+  });
+}
+
+var METHOD_KO={static:'파일 읽기', history:'기록 세기', live:'시험', ask:'사람 확인'};
+var RUNNER_KO={script:'스크립트', agent:'에이전트'};
+var EFFECT_NAME={demote:'아니오이면 한 단계 내림', promote5:'예이면 레벨 4에서 5로', unlock4:'예이면 레벨 4 조건을 대신함', flag:'표시만 함'};
+function fmtAt(a){ if(!a) return ''; var m=String(a).match(/^(\d{4}-\d{2}-\d{2})[T ](\d{2}:\d{2})/); return m?m[1]+' '+m[2]:String(a); }
+function resultBadge(def, x){
+  if(x.s==='notrun') return '<span class="pr pr-wait">'+(def.runner==='agent'?'에이전트 점검 대기':'미점검')+'</span>';
+  if(x.s==='unknown') return '<span class="pr pr-unk">판정 불가</span>';
+  return '<span class="pr pr-'+x.s+'">'+(x.s==='yes'?'예':'아니오')+'</span>';
+}
+function probeHtml(o){
+  var d=o.d, x=o.x, r=x.r||{};
+  var crit=d.criteria?'<details class="crit"><summary>판정 기준과 절차</summary>'+(d.steps||[]).map(function(t){return '<p>'+esc(t)+'</p>';}).join('')+['yes','no','unknown'].filter(function(k){return d.criteria[k];}).map(function(k){return '<p><b>'+({yes:'예',no:'아니오',unknown:'판정 불가'})[k]+'</b>: '+esc(d.criteria[k])+'</p>';}).join('')+'</details>':'';
+  return '<li class="probe">'+
+    '<div class="ph">'+resultBadge(d,x)+'<span class="pt">'+esc(d.checks||d.id)+'</span></div>'+
+    '<div class="pm"><span class="tagm">'+esc(METHOD_KO[d.method]||d.method)+'</span><span class="tagm">'+esc(RUNNER_KO[d.runner]||d.runner||'')+'</span><span class="faint">'+esc(EFFECT_NAME[d.effect]||d.effect||'')+'</span>'+(r.at?'<span class="faint num">'+esc(fmtAt(r.at))+'</span>':'')+'</div>'+
+    (r.evidence?'<p class="pe">'+esc(r.evidence)+'</p>':'')+
+    '<p class="pn">'+esc(o.note)+'</p>'+crit+'</li>';
+}
+function renderMaturity(){
+  var box=document.getElementById('mat-body'), list=document.getElementById('mat-axes');
+  computeMaturity();
+  if(!MAT){ box.innerHTML='<p class="muted">'+esc(MAT_ERR)+'</p>'; list.innerHTML=''; document.getElementById('mat-hex').innerHTML=''; return; }
+  REC=probeRecords();
+  var sc=SC();
+  var rows=sc.axes.map(function(ax){
+    var am=axisMat(ax.id), f=finalOf(ax.id);
+    return {id:ax.id, name:ax.name, auto:am.auto_level, range:am.range, fin:f.level, f:f, ran:f.ran, notrun:f.notrun, need:needOf(ax.id)};
+  });
+  renderHex(rows);
+  var ran=sum(rows,function(r){return r.ran;}), total=sum(rows,function(r){return r.ran+r.notrun;});
+  var needAll=rows.every(function(r){return r.need!=null;});
+  document.getElementById('mat-status').innerHTML=
+    (total?(ran?'점검 '+total+'개 가운데 '+ran+'개의 결과를 반영했다.':'점검 기록이 없어 자동 판정 레벨을 잠정으로 표시한다.'):'이 채점표에는 점검 정의가 없어 자동 판정 레벨만 표시한다.')+' '+
+    (needAll?'필요 레벨은 사용 방식 점검 값으로 계산했다.':'사용 방식 점검 세 개의 값이 모두 있어야 필요 레벨을 점선으로 그린다.')+
+    (MAT.computed==='screen'?' <span class="faint">이 데이터에는 성숙도 결과가 없어 화면이 채점표로 직접 계산했다.</span>':'');
+  renderUsage();
+  list.innerHTML='';
+  rows.forEach(function(r){
+    var ax=axisDef(r.id), am=axisMat(r.id), f=r.f;
+    var d=document.createElement('details'); d.className='axrow'; d.id='ax-'+r.id; d.setAttribute('data-auto',r.auto); d.setAttribute('data-final',r.fin); if(r.need!=null) d.setAttribute('data-need',r.need);
+    if(MA.open[r.id]) d.open=true;
+    d.addEventListener('toggle',function(){MA.open[r.id]=d.open;});
+    var low=r.need!=null && r.fin<r.need, over=r.need!=null && r.fin>r.need;
+    var lvDef=ax.levels.filter(function(l){return l.level===r.fin;})[0]||ax.levels[0];
+    var autoDef=ax.levels.filter(function(l){return l.level===r.auto;})[0]||lvDef;
+    var demoted=r.fin<r.auto;
+    var status = low?'<span class="st st-low">필요 레벨보다 낮음</span>':(over?'<span class="st st-over">필요 이상, 유지 비용 확인</span>':(r.need!=null?'<span class="st">필요 레벨과 같음</span>':''));
+    if(!r.ran && (r.ran+r.notrun)) status+=' <span class="st st-prov">잠정</span>';
+    if(r.notrun) status+=' <span class="st st-prov">미점검 '+r.notrun+'</span>';
+    var s=document.createElement('summary');
+    s.innerHTML='<span class="ax-name">'+esc(ax.name)+'</span><span class="ax-lv"><b class="num">'+r.fin+'</b> '+(demoted?esc(autoDef.name)+' <span class="faint">(자동 '+r.auto+'에서 내림)</span>':esc(lvDef.name)+(r.fin!==r.auto?' <span class="faint">(자동 '+r.auto+')</span>':''))+'</span><span class="ax-need">'+(r.need!=null?'필요 <b class="num">'+r.need+'</b>':'필요 미정')+'</span><span class="ax-range">폴더별 '+(r.range[0]===r.range[1]?r.range[0]:r.range[0]+'~'+r.range[1])+'</span><span class="ax-st">'+status+'</span>';
+    d.appendChild(s);
+    var pick=MA.pick[r.id]; if(pick==null || !am.by_location[pick]){ pick=0; am.by_location.forEach(function(b,i){ if(b.level===am.auto_level && am.by_location[pick].level!==am.auto_level) pick=i; }); }
+    var bl=am.by_location[pick];
+    var stop=(bl.checks||[]).filter(function(c){return c.result!==true;})[0];
+    var stopHtml;
+    if(stop){
+      var tree; try{ tree=explainNode(parsed(stop.expr), bl.metrics); }catch(e){ tree='<li>'+esc(e.message)+'</li>'; }
+      stopHtml='<p>'+esc(short(bl.cwd))+' 폴더는 레벨 '+stop.level+' 조건에서 멈췄다'+(stop.result===null?'. 필요한 값이 데이터에 없어 판정할 수 없었다.':'.')+'</p><ul class="cond">'+tree+'</ul>';
+    } else stopHtml='<p>'+esc(short(bl.cwd))+' 폴더는 자동 판정의 상한인 레벨 '+bl.level+'까지 모든 조건을 충족했다. 레벨 5는 점검 결과로만 정해진다.</p>';
+    var folders='<div class="folders" role="group" aria-label="폴더 선택">'+am.by_location.map(function(b,i){return '<button type="button" class="opt fbtn" data-ax="'+r.id+'" data-i="'+i+'" aria-pressed="'+(i===pick)+'"><span class="n">'+esc(short(b.cwd))+'</span><span class="d">레벨 '+b.level+(b.blocked_by_unknown?', '+b.blocked_by_unknown+' 판정 불가':'')+'</span></button>';}).join('')+'</div>';
+    var steps=f.steps.length?'<p>자동 판정 레벨은 '+r.auto+'이다. '+f.steps.map(function(x){return ({unlock4:'점검으로 레벨 4 조건을 대신 확인해 '+x.to+'가 되었다.',demote:'점검 결과로 '+x.from+'에서 '+x.to+'로 내렸다.',promote5:'점검 결과로 4에서 5가 되었다.'})[x.e];}).join(' ')+'</p>':'<p>점검 결과가 레벨을 바꾸지 않아, 자동 판정 레벨 '+r.auto+'을 그대로 쓴다.</p>';
+    if(f.fromData && f.js!==f.level) steps+='<p class="faint">데이터에 적힌 최종 레벨('+f.level+')을 표시한다. 화면 계산 결과는 '+f.js+'이다.</p>';
+    var probes=f.probes.length?'<ul class="probes">'+f.probes.map(probeHtml).join('')+'</ul>':'<p class="faint">이 채점표에는 이 축의 점검 정의가 없다.</p>';
+    var nextDef=ax.levels.filter(function(l){return l.level===r.fin;})[0];
+    var body=document.createElement('div'); body.className='axbody';
+    body.innerHTML=
+      '<div class="axcol"><p>'+esc(ax.summary)+'</p>'+
+      '<p class="evid-row"><span class="faint">근거</span> '+evidHtml(ax.evidence, r.id)+'</p>'+
+      (demoted?'<h4>현재 레벨 '+r.fin+'. 자동 판정 '+r.auto+'('+esc(autoDef.name)+')에서 한 단계 내림</h4><p>'+esc(autoDef.desc)+' 설정은 이 단계에 해당하지만, 점검 결과 그 장치가 의도대로 쓰이지 않아 한 단계 낮게 본다.</p>'
+              :'<h4>현재 레벨 '+r.fin+'. '+esc(lvDef.name)+'</h4><p>'+esc(lvDef.desc)+'</p>')+steps+
+      '<h4>다음 단계로 가려면</h4><p>'+(demoted?'먼저 아니오로 나온 점검의 원인을 해결한다. 그다음 할 일은 다음과 같다. '+esc(autoDef.next):esc(nextDef?nextDef.next:''))+'</p>'+
+      (over?'<p class="faint">이 축은 사용 방식에서 계산한 필요 레벨보다 높다. 문제는 아니지만, 관리할 파일과 훅이 늘어난 만큼 유지 비용이 드는지 확인한다.</p>':'')+
+      '<h4>폴더별 레벨</h4>'+folders+'<h4>멈춘 조건</h4>'+stopHtml+'</div>'+
+      '<div class="axcol"><h4>점검 기록</h4>'+probes+'</div>';
+    d.appendChild(body);
+    list.appendChild(d);
+  });
+  list.querySelectorAll('.ev-chip[data-ev]').forEach(function(b){ b.addEventListener('click',function(){ var ax=axisDef(b.getAttribute('data-ev')); var l=evidLink(ax.evidence[+b.getAttribute('data-i')]); if(l.go) l.go(); }); });
+  list.querySelectorAll('.fbtn').forEach(function(b){ b.addEventListener('click',function(){ MA.pick[b.getAttribute('data-ax')]=+b.getAttribute('data-i'); renderMaturity(); }); });
+}
+function renderUsage(){
+  var box=document.getElementById('mat-usage'), sc=SC(), defs=sc.usage_probes||[];
+  if(!defs.length){ box.innerHTML='<p class="faint" style="font-size:13px">이 채점표에는 사용 방식 점검이 없다.</p>'; return; }
+  box.innerHTML='<ul class="probes usage">'+defs.map(function(u){
+    var r=REC[u.id], ran=r && r.ran!==false && typeof r.value==='number', v=usageVal(u.id);
+    var label=ran?((u.value||{})[String(r.value)]||String(r.value)):'';
+    var head='<div class="ph">'+(ran?'<span class="pr pr-val">값 '+v+'</span>':'<span class="pr pr-wait">'+(u.runner==='agent'?'에이전트 점검 대기':'미점검')+'</span>')+'<span class="pt"><b>'+esc(u.id)+' '+esc(u.name||'')+'</b>. '+esc(u.checks||'')+'</span></div>';
+    var meta='<div class="pm"><span class="tagm">'+esc(METHOD_KO[u.method]||u.method)+'</span><span class="tagm">'+esc(RUNNER_KO[u.runner]||u.runner||'')+'</span>'+(r&&r.at?'<span class="faint num">'+esc(fmtAt(r.at))+'</span>':'')+'</div>';
+    var body=ran?'<p class="pe">'+esc(label)+(r.evidence?' '+esc(r.evidence):'')+'</p>':'';
+    var ask='';
+    if(u.id==='U1' && ran && r.value===0 && u.ask_fallback){
+      ask='<fieldset class="mq ask"><legend>사람 확인(선택). 이 설정을 다른 사람과 복사해 나눠 쓰는가? <span class="faint">git 밖에서 나눠 쓰는 경우는 데이터로 알 수 없다.</span></legend>'+
+        [['yes','예'],['no','아니오']].map(function(c){var id='ask-U1-'+c[0]; return '<label for="'+id+'"><input type="radio" id="'+id+'" name="ask-U1" value="'+c[0]+'"'+(MA.ask.U1===c[0]?' checked':'')+'> '+c[1]+'</label>';}).join('')+
+        (MA.ask.U1?' <button type="button" class="linkbtn" id="ask-U1-clear" style="font-size:12.5px">응답 지우기</button>':'')+'</fieldset>';
+    }
+    return '<li class="probe">'+head+meta+body+ask+'</li>';
+  }).join('')+'</ul>';
+  box.querySelectorAll('input[name=ask-U1]').forEach(function(inp){ inp.addEventListener('change',function(){ MA.ask.U1=inp.value; maSave(); renderMaturity(); var f=document.getElementById(inp.id); if(f) f.focus(); }); });
+  var c=document.getElementById('ask-U1-clear'); if(c) c.addEventListener('click',function(){ delete MA.ask.U1; maSave(); renderMaturity(); });
+}
+
+function renderMatLegend(){
+  var box=document.getElementById('mat-legend');
+  var items=[
+    ['현재 레벨. 점검 결과를 반영한 값이다. 점검 기록이 없으면 자동 판정과 같고 잠정으로 표시한다.', '<line x1="2" y1="9" x2="40" y2="9" style="stroke:var(--ink);stroke-width:2.2"/><circle cx="21" cy="9" r="3.5" style="fill:var(--ink)"/>'],
+    ['자동 판정 레벨. 데이터에서 계산한 값을 옅은 면으로 표시한다.', '<rect x="2" y="2" width="38" height="14" style="fill:var(--ink-3);fill-opacity:.25"/>'],
+    ['필요 레벨. 사용 방식 점검 세 개의 값이 모두 있으면 점선으로 표시한다.', '<line x1="2" y1="9" x2="40" y2="9" style="stroke:var(--ink-2);stroke-width:1.6;stroke-dasharray:6 4"/>'],
+    ['시작 폴더별 레벨의 범위. 꼭짓점 방향의 굵은 막대이다.', '<line x1="6" y1="9" x2="36" y2="9" style="stroke:var(--ink-3);stroke-width:9;stroke-linecap:round;opacity:.55"/>'],
+    ['필요 레벨보다 낮은 축. 이 축만 파란 점과 파란 글자로 표시한다.', '<circle cx="21" cy="9" r="6" style="fill:var(--accent)"/>']
+  ];
+  box.innerHTML=items.map(function(it){return '<div><svg width="42" height="18" viewBox="0 0 42 18" aria-hidden="true">'+it[1]+'</svg><span>'+it[0]+'</span></div>';}).join('');
+}
 /* ---------- 전체 ---------- */
 function renderAll(){
   buildCases();
-  renderMeta(); renderControls(); renderCaseline(); renderHero(); renderStage(); renderSummary(); renderDetail(); renderPrio(); renderTacit(); renderHist(); renderFoot();
+  renderMeta(); renderControls(); renderCaseline(); renderHero(); renderStage(); renderSummary(); renderDetail(); renderPrio(); renderTacit(); renderHist(); renderFoot(); renderMaturity();
 }
 
 (function init(){
   S.loc=0; buildCases();
-  renderProps(); renderLegend(); renderQs(); bindPaste();
+  renderProps(); renderLegend(); renderMatLegend(); renderQs(); bindPaste();
   applyCaseSilently(1);
   renderAll();
 })();

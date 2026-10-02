@@ -110,7 +110,7 @@
 
 ### 둘째, JSON
 
-harness-map 화면에 붙여 넣을 수 있도록 아래 구조를 따른다. 값을 알 수 없으면 null 로 둔다.
+harness-map 화면에 붙여 넣을 수 있도록 아래 구조를 따른다. 값을 알 수 없으면 null 로 둔다. 성숙도 점수(`maturity`)는 계산하지 않아도 된다. 화면이 이 데이터로 직접 계산한다. 다만 에이전트 정의마다 `tools_restricted`(머리말에 tools 나 disallowedTools 가 있는지), `permissionMode`, `skills`, `has_memory` 를 함께 적는다.
 
 ```json
 {
