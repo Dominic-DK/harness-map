@@ -311,11 +311,11 @@ def assemble(cwd: Path, user_layer: dict, managed_layer: dict, plugins: list[dic
 # ---------------------------------------------------------------- 성숙도 채점
 # 채점표 원본: 하네스 지도 개념 모델(명제 P1~P5, 암묵지 T1~T11, 케이스 1~7, 사실표 §1~§4)에서 도출한 6개 축.
 # 각 레벨의 evidence 는 그 기준이 어느 명제·사실에서 왔는지를 가리킨다.
-# 원본은 _workspace/04_maturity_model.md 6장의 JSON 블록(maturity-2)이며 그대로 옮겼다.
+# 원본은 _workspace/04_maturity_model.md 6장의 JSON 블록(maturity-3)이며 그대로 옮겼다.
 # 스크립트는 자동 레벨(레벨 4까지), runner == script 점검, 최종 레벨·필요 레벨을 계산한다.
 # 에이전트 점검(runner == agent)은 자리만 만들고 --probes 로 받은 결과를 합쳐 다시 계산한다.
 SCORECARD = json.loads(r'''{
- "version": "maturity-2",
+ "version": "maturity-3",
  "hook_sets": {
   "PRE": [
    "PreToolUse",
@@ -698,30 +698,31 @@ SCORECARD = json.loads(r'''{
     {
      "level": 1,
      "name": "차단 없음",
-     "desc": "bypassPermissions 이거나, acceptEdits 에서 금지·확인 규칙이 하나도 없다.",
-     "auto": "mode == \"bypassPermissions\" or (mode == \"acceptEdits\" and deny_total + ask_total == 0)",
+     "desc": "승인 창이 없는 모드인데 모드와 무관하게 막는 장치(금지 규칙, 겨냥한 행동 전 훅, 샌드박스)가 하나도 없다. bypassPermissions 이거나, acceptEdits 에서 확인 규칙까지 없는 경우다.",
+     "auto": "deny_total + pre_hooks_targeted + sandbox == 0 and (mode == \"bypassPermissions\" or (mode == \"acceptEdits\" and ask_total == 0))",
      "evidence": [
+      "facts§1",
       "facts§4",
       "case4"
      ],
-     "next": "bypassPermissions 를 끄거나, acceptEdits 를 쓸 때 위험한 명령을 deny 나 ask 에 적는다."
+     "next": "위험한 명령을 deny 에 적거나 위험 도구를 겨냥한 PreToolUse 훅을 둔다. deny 규칙과 훅은 bypassPermissions 에서도 막는다."
     },
     {
      "level": 2,
      "name": "그때그때 승인",
-     "desc": "막는 일을 승인 창이나 자동 판단 모드에 맡기고 미리 적어 둔 금지·확인 규칙이 없다.",
-     "auto": "not (mode == \"bypassPermissions\" or (mode == \"acceptEdits\" and deny_total + ask_total == 0))",
+     "desc": "미리 적어 둔 금지 규칙(bypassPermissions 가 아니면 확인 규칙 포함)이 없다. 막는 일을 승인 창이나 자동 판단 모드, 규칙 밖의 장치에 맡긴다.",
+     "auto": "not (deny_total + pre_hooks_targeted + sandbox == 0 and (mode == \"bypassPermissions\" or (mode == \"acceptEdits\" and ask_total == 0)))",
      "evidence": [
       "facts§1",
       "T1"
      ],
-     "next": "되돌리기 어려운 명령(삭제, 강제 푸시, 배포)을 deny 나 ask 규칙으로 적는다."
+     "next": "되돌리기 어려운 명령(삭제, 강제 푸시, 배포)을 deny 나 ask 규칙으로 적는다. bypassPermissions 에서는 ask 가 무시되므로 deny 로 적는다."
     },
     {
      "level": 3,
      "name": "적어 둔 규칙",
-     "desc": "금지하거나 확인받을 동작을 권한 규칙으로 적어 두었다.",
-     "auto": "mode != \"bypassPermissions\" and deny_total + ask_total >= 1",
+     "desc": "금지하거나 확인받을 동작을 권한 규칙으로 적어 두었다. bypassPermissions 에서는 확인(ask) 규칙이 무시되므로 금지(deny) 규칙만 센다.",
+     "auto": "deny_total >= 1 or (mode != \"bypassPermissions\" and ask_total >= 1)",
      "evidence": [
       "P2",
       "facts§2",
@@ -733,7 +734,7 @@ SCORECARD = json.loads(r'''{
      "level": 4,
      "name": "이중 차단",
      "desc": "금지 규칙과 함께 샌드박스나 특정 도구를 겨냥한 행동 전 훅이 있어, 모든 스폰에서 코드가 막는다.",
-     "auto": "mode != \"bypassPermissions\" and deny_total >= 1 and (sandbox == 1 or pre_hooks_targeted >= 1)",
+     "auto": "deny_total >= 1 and (sandbox == 1 or pre_hooks_targeted >= 1)",
      "evidence": [
       "facts§1",
       "facts§4",
@@ -1149,6 +1150,7 @@ SCORECARD = json.loads(r'''{
    "checks": "최근 30일에 행동 전 훅이나 권한 규칙이 실제로 도구 호출을 막은 기록이 있는가.",
    "steps": [
     "attachment.type == 'hook_blocking_error' 이고 hookEvent 가 PreToolUse·PermissionRequest 인 줄을 센다.",
+    "tool_result 앞부분이 'PreToolUse:<도구> hook error:' 형태인 수를 센다(패턴 일치 여부만, 본문은 옮기지 않는다). PreToolUse 차단은 attachment 가 아니라 이 형태로 남는 버전이 있다.",
     "권한 거부로 끝난 tool_result 수를 센다(본문 없이 개수만)."
    ],
    "criteria": {
@@ -1156,7 +1158,25 @@ SCORECARD = json.loads(r'''{
     "no": "0.",
     "unknown": "기록이 없다."
    },
-   "evidence": "T1. deny_test 를 실행하지 못한 경우의 대체 근거."
+   "evidence": "T1. deny_test 를 실행하지 못한 경우의 대체 근거. tool_result 형태는 Claude Code 2.1.284 기록 제보(GitHub 이슈 #3)."
+  },
+  {
+   "id": "prevention.bypass_mode",
+   "axis": "prevention",
+   "method": "static",
+   "runner": "script",
+   "effect": "flag",
+   "checks": "시작 폴더의 기본 권한 모드가 bypassPermissions 가 아닌가.",
+   "steps": [
+    "시작 폴더마다 harness.json 의 enforcement.mode.value 를 읽는다.",
+    "bypassPermissions 인 폴더 수와, 그 폴더의 확인(ask) 규칙 수를 센다."
+   ],
+   "criteria": {
+    "yes": "bypassPermissions 인 시작 폴더가 0.",
+    "no": "1개 이상. 승인 창, 확인(ask) 규칙, 허용(allow) 규칙, 보호 경로 확인이 꺼진다. 금지(deny) 규칙과 행동 전 훅은 그대로 막으므로 레벨은 내리지 않는다.",
+    "unknown": "모드 값을 읽지 못했다."
+   },
+   "evidence": "facts§1, case4. 공식 문서 permission-modes: 'Deny rules block in every mode, including bypassPermissions. Allow rules have no effect in bypassPermissions.' (2026-10-06 확인, GitHub 이슈 #2). 모드가 위험한 것과 차단 장치가 없는 것은 다른 문제라 레벨이 아니라 표시로 둔다."
   },
   {
    "id": "verification.real_check",
@@ -1445,6 +1465,8 @@ def score(locations: list[dict]) -> dict:
 #   도구 결과 : .type == "user" 의 .message.content[] 중 .type == "tool_result" → .content (문자열 또는 [{type:text,text}])
 #               권한 규칙·자동 판단에 의한 거부는 결과 문장이 "Permission to use ..." 로 시작하고 "denied" 를 포함한다.
 #               사용자가 거절한 경우는 .toolDenialKind == "user-rejected" 로 따로 남는다(차단 집계에 넣지 않는다).
+#               PreToolUse 훅의 차단은 attachment 가 아니라 결과 문장 "PreToolUse:<도구> hook error: [<명령>]: <stderr>" 로
+#               남는 버전이 있다(2.1.284 기록 제보, GitHub 이슈 #3). 이 작성자 기록에는 PreToolUse 차단이 없어 직접 확인하지 못했다.
 #   훅 기록   : .type == "attachment" 의 .attachment.type ∈ {hook_success, hook_blocking_error, hook_non_blocking_error,
 #               hook_additional_context}, 이벤트는 .attachment.hookEvent (예: "PostToolUse").
 #   지시 도착 : .attachment.type == "instructions" 의 .attachment.files[] → .path, .type ("User", "Project", "AutoMem" 등).
@@ -1455,6 +1477,7 @@ def score(locations: list[dict]) -> dict:
 #               짝이 되는 jsonl 의 timestamp 로 기간을 판정한다.
 DANGER_PATTERNS = ["git push", "rm -rf", "deploy", "terraform apply", "kubectl apply", "kubectl delete",
                    "npm publish", "gh release create", "DROP TABLE"]
+_PRE_BLOCK = re.compile(r"PreToolUse:[A-Za-z0-9_.-]+ hook (?:blocking )?error")
 _RM_START = re.compile(r"(?:^|&&|;|\||\n)\s*(?:sudo\s+)?rm\s")
 _SECRET_RE = re.compile(r"(sk-[A-Za-z0-9_-]{16,}|gh[pousr]_[A-Za-z0-9]{20,}|xox[abprs]-[A-Za-z0-9-]{10,}|AKIA[0-9A-Z]{16}"
                         r"|akc_[A-Za-z0-9_-]{10,}|eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{10,}|ntn_[A-Za-z0-9]{20,})")
@@ -1512,7 +1535,7 @@ def scan_history(dirs: list[Path], days: int, exclude: set[str]) -> dict:
     H = {"main_sessions": 0, "bypass_sessions": 0, "mode_sessions": 0, "excluded": 0,
          "tool_names": Counter(), "agent_calls": 0, "agent_types": Counter(),
          "memory_edits": 0, "memory_rm": 0, "danger": Counter(),
-         "block_by_event": Counter(), "nonblock": 0, "perm_denied": 0,
+         "block_by_event": Counter(), "nonblock": 0, "perm_denied": 0, "pre_result_blocks": 0,
          "sub_records": 0, "sub_hooks": Counter(), "sub_instr_records": 0,
          "sub_instr_paths": Counter(), "sub_instr_by_type": Counter(), "sub_automem": 0,
          "sub_nonexplore_records": 0, "sub_nonexplore_with_md": 0, "metas": []}
@@ -1561,6 +1584,8 @@ def scan_history(dirs: list[Path], days: int, exclude: set[str]) -> dict:
                             txt = _text_of(c.get("content"))[:300]
                             if txt.startswith("Permission to use") and "denied" in txt:
                                 H["perm_denied"] += 1
+                            elif _PRE_BLOCK.match(txt.lstrip()):
+                                H["pre_result_blocks"] += 1
                 elif t == "attachment":
                     a = o.get("attachment") or {}
                     at, ev = a.get("type", ""), a.get("hookEvent")
@@ -1715,6 +1740,22 @@ def probe_tools_restricted(locations: list[dict]) -> dict:
                 {"agents": len(agents), "restricted": n})
 
 
+def probe_bypass_mode(locations: list[dict]) -> dict:
+    modes = [(L, L["enforcement"]["mode"].get("value")) for L in locations]
+    if not modes or all(v is None for _, v in modes):
+        return _rec("prevention.bypass_mode", True, "unknown", "시작 폴더의 권한 모드 값을 읽지 못했다.")
+    bp = [L for L, v in modes if v == "bypassPermissions"]
+    if not bp:
+        return _rec("prevention.bypass_mode", True, "yes", f"시작 폴더 {len(modes)}곳 모두 기본 권한 모드가 bypassPermissions 가 아니다.",
+                    {"locations": len(modes), "bypass": 0})
+    ask = sum(p["ask"] for L in bp for p in L["enforcement"]["perm"])
+    deny = sum(p["deny"] for L in bp for p in L["enforcement"]["perm"])
+    return _rec("prevention.bypass_mode", True, "no",
+                f"시작 폴더 {len(modes)}곳 중 {len(bp)}곳의 기본 권한 모드가 bypassPermissions 다. 이 모드에서는 승인 창과 "
+                f"확인 규칙 {ask}개가 작동하지 않는다. 금지 규칙 {deny}개와 행동 전 훅은 그대로 막으므로 레벨은 내리지 않는다.",
+                {"locations": len(modes), "bypass": len(bp), "ask_ignored": ask, "deny_active": deny})
+
+
 def usage_u1(locations: list[dict]) -> dict:
     if (MANAGED_DIR / "managed-settings.json").exists():
         return {"value": 2, "evidence": "조직 관리 설정 파일(managed-settings.json)이 있다."}
@@ -1800,13 +1841,16 @@ def history_probes(locations: list[dict], H: dict, days: int, scope_note: str) -
                       f"설정 파일의 기본 모드는 {', '.join(set_modes) or '없음'} 이다.",
                       {"sessions": H["main_sessions"], "sessions_bypass": H["bypass_sessions"], "subagent_meta_bypass": teammate_bypass}))
     # prevention.block_seen
-    pre = H["block_by_event"]["PreToolUse"] + H["block_by_event"]["PermissionRequest"]
+    pre_att = H["block_by_event"]["PreToolUse"] + H["block_by_event"]["PermissionRequest"]
+    pre = pre_att + H["pre_result_blocks"]
     if not (has_main or has_sub):
         P.append(_rec("prevention.block_seen", True, "unknown", unk_main))
     else:
         P.append(_rec("prevention.block_seen", True, "yes" if pre + H["perm_denied"] else "no",
-                      f"{span} 기록에서 행동 전 훅의 차단이 {pre}건, 권한 거부로 끝난 도구 호출이 {H['perm_denied']}건이다.",
-                      {"pre_hook_blocks": pre, "permission_denied": H["perm_denied"]}))
+                      f"{span} 기록에서 행동 전 훅의 차단이 {pre}건(첨부 {pre_att}, 도구 결과 {H['pre_result_blocks']}), "
+                      f"권한 거부로 끝난 도구 호출이 {H['perm_denied']}건이다.",
+                      {"pre_hook_blocks": pre, "pre_hook_blocks_attachment": pre_att,
+                       "pre_hook_blocks_result": H["pre_result_blocks"], "permission_denied": H["perm_denied"]}))
     # verification.caught
     post = sum(H["block_by_event"][e] for e in ("PostToolUse", "Stop", "SubagentStop"))
     if not (has_main or has_sub):
@@ -1883,7 +1927,8 @@ def placeholder(p: dict) -> dict:
 def run_probes(locations: list[dict], days: int, exclude: set[str]) -> tuple[list[dict], dict, dict]:
     dirs, scope_note = history_dirs(locations)
     H = scan_history(dirs, days, exclude)
-    recs = {r["id"]: r for r in [probe_refs_live(locations), probe_index_fit(locations), probe_tools_restricted(locations)]
+    recs = {r["id"]: r for r in [probe_refs_live(locations), probe_index_fit(locations), probe_tools_restricted(locations),
+                                    probe_bypass_mode(locations)]
             + history_probes(locations, H, days, scope_note)}
     probes = [recs[p["id"]] if p["runner"] == "script" and p["id"] in recs else placeholder(p) for p in SCORECARD["probes"]]
     at = _now_iso()
